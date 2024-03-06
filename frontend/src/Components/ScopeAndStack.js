@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../Styles/ScopeAndStack.css'
 
 function ScopeAndStack({ projectId }) {
   const [projectTech, setProjectTech] = useState('');

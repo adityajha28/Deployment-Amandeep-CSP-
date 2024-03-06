@@ -40,6 +40,25 @@ router.post('/projects',async (req, res) => {
     }
   });
 
+
+  // send project data in description.
+  router.post('/projects/:id/overview', async (req, res) => {
+    try {
+      const project = await Project.findById(req.params.id);
+      if (!project) {
+        return res.status(404).json({ error: 'Project not found' });
+      }
+  
+      const { brief, purpose, goal, objective, totalBudget } = req.body;
+      project.description = { brief, purpose, goal, objective, totalBudget };
+      
+      const updatedProject = await project.save();
+      res.status(200).json(updatedProject);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to save project overview data' });
+    }
+  });
+
   //get project by id
   router.get('/projects/:id',async (req, res) => {
     try {

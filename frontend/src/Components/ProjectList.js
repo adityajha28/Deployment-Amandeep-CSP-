@@ -42,20 +42,20 @@ function ProjectList() {
     <div className="TopContainer">
         <div className="StatusCards">
             <div className="CardStyle">
-                <h1>41</h1>
+                <h1>{projects.length}</h1>
                 <span>All projects</span>
             </div>
             <div className="CardStyle">
-                <h1>41</h1>
-                <span>All projects</span>
+                <h1>0</h1>
+                <span>In progress</span>
             </div>
             <div className="CardStyle">
-                <h1>41</h1>
-                <span>All projects</span>
+                <h1>0</h1>
+                <span>Completed</span>
             </div>
             <div className="CardStyle">
-                <h1>41</h1>
-                <span>All projects</span>
+                 <h1>0</h1> {/*now it is filled with harcoded data. */}
+                <span>Hold</span>
             </div>
         </div>
       <div className="ProjectTable">
@@ -80,8 +80,8 @@ function ProjectList() {
                 <td>{project.projectManagerName}</td>
                 <td>{project.projectMembers}</td>
                 <td>
-                  <button onClick={() => editProject(project._id)}>Edit</button>
-                  <button onClick={() => deleteProject(project._id)}>
+                  <button className="edit-btn" onClick={() => editProject(project._id)}>Edit</button>
+                  <button className="delete-btn" onClick={() => deleteProject(project._id)}>
                     Delete
                   </button>
                 </td>

@@ -9,9 +9,7 @@
   display: flex;
   flex-direction: column;
 }
-.ProjectTable{
-    width: 100%;
-}
+
 .StatusCards{
   width: 95%;
   display: flex;
@@ -30,15 +28,51 @@
   border-radius: 3px;
   background-color: #FFFFFF;
 }
-table {
-    width: 95%;
-    border-collapse: collapse;
-  }
-  th, td {
-    padding: 8px;
-    text-align: left;
-    border: 1px solid black;
-  }
-  tr {
-    background-color: #FFFFFF;
-  }
+/* ProjectTable.css */
+
+.ProjectTable {
+  font-family: Arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.ProjectTable table {
+  border: 1px solid #dddddd;
+}
+
+.ProjectTable th, .ProjectTable td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.ProjectTable th {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.ProjectTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.ProjectTable tr:hover {
+  background-color: #ddd;
+}
+
+.edit-btn, .delete-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+ .edit-btn:hover{
+  background-color: #052343;
+}
+
+.ProjectTable .delete-btn {
+  background-color: #dc3545;
+}

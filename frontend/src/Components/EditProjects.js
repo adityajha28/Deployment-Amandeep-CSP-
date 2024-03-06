@@ -13,7 +13,7 @@ import Phases from './Phases';
 import Sprint from './Sprint';
 import '../Styles/EditProjects.css';
 
-const tabs=['Project Overview','Scope & Stacks','Project Budget','Audit History','Version History','Escaltion Matrix','Stake Holders','Risk Profile','Phases','Sprint']
+const tabs=['Scope & Stacks','Project Budget','Audit History','Version History','Stake Holders','Risk Profile','Phases','Sprint']
 
 function EditProjects() {
     // const projectId=props.location.state;
@@ -24,22 +24,22 @@ function EditProjects() {
         console.log("Project ID:", projectId);
     }, []);
 
-    const [activetab,setActiveTabs]=useState('Project Overview');
+    const [activetab,setActiveTabs]=useState('Scope & Stacks');
 
     return (  
         <div className="EditProjects">
             <Tabs tabs={tabs} activetab={activetab} setActiveTabs={setActiveTabs}/>
             <hr/>
             <div>
-                {
-                    activetab==='Project Overview' && <ProjectOverview/>
-                }
+                {/* {
+                    activetab==='Project Overview' && <ProjectOverview projectId={projectId}/>
+                } */}
                 {
                     activetab==='Scope & Stacks' && <ScopeAndStack projectId={projectId}/>
                 }
-                {
+                {/* {
                     activetab==='Escaltion Matrix' && <EscaltionMatrix/>
-                }
+                } */}
                 {
                     activetab==='Version History' && <VersionHistory projectId={projectId} />
                 }

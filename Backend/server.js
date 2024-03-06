@@ -19,6 +19,7 @@ const VersionPdf =require('./Services/VersionPdf');
 const StakeHolderpdf =require('./Services/StakeHolderpdf');
 const RiskProfilepdf =require('./Services/RiskProfilepdf');
 const Phasespdf =require('./Services/Phasespdf');
+const SprintPdf =require('./Services/SprintPdf')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -42,6 +43,7 @@ app.use('/api',VersionPdf);
 app.use('/api',StakeHolderpdf);
 app.use('/api',RiskProfilepdf);
 app.use('/api',Phasespdf);
+app.use('/api',SprintPdf);
 
 
 

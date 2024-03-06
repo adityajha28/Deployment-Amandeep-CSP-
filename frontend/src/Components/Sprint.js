@@ -71,11 +71,42 @@ function Sprint({ projectId }) {
     }
   };
 
+  const handleDownloadAsPdf = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/sprint/pdf`,
+        SprintHistory,
+        { responseType: "blob" } // Set response type to blob for downloading file
+      );
+
+      // Create a Blob object from the PDF data
+      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+
+      // Create a URL for the PDF Blob
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+
+      // Create a temporary anchor element to trigger the download
+      const tempLink = document.createElement("a");
+      tempLink.href = pdfUrl;
+      tempLink.setAttribute("download", "SprintHistory.pdf");
+      tempLink.click();
+
+      // Release the object URL after the download
+      URL.revokeObjectURL(pdfUrl);
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+    }
+  };
+
   return (
     <div>
+      <div className="top-btns">
       <button className="add-version-btn" onClick={handleAddNewSprint}>
         Add SprintDetails
       </button>
+      <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
+      </div>
+
       <table className="version-history-table">
         <thead>
           <tr>
