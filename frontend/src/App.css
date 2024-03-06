@@ -1,0 +1,11 @@
+.lowerContent{
+  width: 100%;
+  display: flex;
+  margin-top: 20px;
+  background-color: #F8F8F8;
+  gap: 30px;
+  margin-right: 30px;
+}
+.MainPage{
+  width: 100%;
+}

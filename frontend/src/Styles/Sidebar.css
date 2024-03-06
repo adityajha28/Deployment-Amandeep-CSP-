@@ -1,0 +1,30 @@
+.sidebar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    text-align: start;
+    width: 15%;
+    background-color: #FFFFFF;
+    gap: 20px;
+}
+.Link{
+    text-decoration: none;
+}
+.btn-blue{
+    background-color: rgb(72, 72, 240);
+    width: 170px;
+    font-size: large;
+    font-weight:200;
+    display: flex;
+    padding: 8px;
+    color: white;
+    border-radius: 3px;
+    text-decoration: none;
+}
+.Projects:hover{
+    background-color: rgba(120, 188, 234, 0.837);
+    padding: 8px;
+    border-radius: 4px;
+    width: 300px;
+}

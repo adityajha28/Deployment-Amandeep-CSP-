@@ -1,0 +1,67 @@
+.add-version-btn,
+.download-pdf-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .version-history-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .version-history-table th,
+  .version-history-table td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+  }
+  .inputfield{
+    width: 150px;
+    padding: 8px;
+  }
+  .top-btns{
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .version-history-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .save-btn,
+  .edit-btn,
+  .delete-btn {
+    padding: 5px 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  .edit-btn,
+  .save-btn{
+    background-color: rgb(7, 167, 7);
+  }
+  .delete-btn{
+    background-color: rgb(246, 15, 15);
+  }
+  
+  .edit-btn:hover,
+  .save-btn:hover{
+    background-color: rgb(4, 88, 4);
+  }
+  .delete-btn:hover {
+    background-color: rgb(151, 15, 15)
+  }
+  
+  .edit-buttons button {
+    margin-right: 5px;
+  }
+  
+  .edit-buttons button:last-child {
+    margin-right: 0;
+  }
+  
