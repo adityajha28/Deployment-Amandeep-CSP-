@@ -14,6 +14,7 @@ function App() {
         <div className='MainPage'>
           <Navbar/>
           <div className='lowerContent'>
+          
             <Sidebar/>
         <Routes>
           <Route path='/' element={<ProjectList/>}/>
@@ -21,6 +22,7 @@ function App() {
           <Route path="/project-details" element={<ProjectOverview />} />
           <Route path="/edit-projects/:projectId" element={<EditProjects />}/>
         </Routes>
+        
         </div>
         </div>
 

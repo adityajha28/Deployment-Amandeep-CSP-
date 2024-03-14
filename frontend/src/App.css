@@ -1,5 +1,6 @@
 .lowerContent{
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   margin-top: 20px;
   background-color: #F8F8F8;
@@ -7,5 +8,7 @@
   margin-right: 30px;
 }
 .MainPage{
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
+  /* background-color: #F8F8F8; */
 }

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../Styles/VersionHistory.css";
+// import "../Styles/VersionHistory.css";
+import EditBudgetModal from "../Modals/EditBudgetModal";
+import ExportAsPdf from "../Service/ExportAsPdf";
 
 function ProjectBudget({ projectId }) {
   // console.log(`in versionhistory ${projectId}`)
@@ -12,6 +14,9 @@ function ProjectBudget({ projectId }) {
     budgetHours: "",
     isEditing: false,
   });
+
+  const [editBudgetData, setEditBudgetData] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   useEffect(() => {
     const fetchBudgetHistory = async () => {
@@ -68,32 +73,36 @@ function ProjectBudget({ projectId }) {
     }
   };
 
-  const handleDownloadAsPdf = async () => {
+  const handleDownloadAsPdf = () => {
+    const columns = [
+      "projectType",
+      "Duration",
+      "budgetHours",
+    ];
+    ExportAsPdf(projectBudget, columns, "Project_Budget","Project Budget");
+  };
+
+  const handleEditBudget = (budget) => {
+    setEditBudgetData(budget);
+    setShowEditModal(true);
+  };
+
+  const handleUpdateBudget = async (updatedBudget) => {
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/pdf`,
-        projectBudget,
-        { responseType: "blob" } // Set response type to blob for downloading file
+      const response = await axios.put(
+        `http://localhost:5000/api/project-budget/${updatedBudget._id}`,
+        updatedBudget
       );
-
-      // Create a Blob object from the PDF data
-      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-
-      // Create a URL for the PDF Blob
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-
-      // Create a temporary anchor element to trigger the download
-      const tempLink = document.createElement("a");
-      tempLink.href = pdfUrl;
-      tempLink.setAttribute("download", "Phases.pdf");
-      tempLink.click();
-
-      // Release the object URL after the download
-      URL.revokeObjectURL(pdfUrl);
+      const updatedBudgets = projectBudget.map((budget) =>
+        budget._id === updatedBudget._id ? response.data : budget
+      );
+      setProjectBudget(updatedBudgets);
+      setShowEditModal(false);
     } catch (error) {
-      console.error("Error downloading PDF:", error);
+      console.error("Error updating budget:", error);
     }
   };
+
 
   return (
     <div>
@@ -120,19 +129,8 @@ function ProjectBudget({ projectId }) {
               <td>{budget.Duration}</td>
               <td>{budget.budgetHours}</td>
               <td>
-                {budget.isEditing ? (
-                  <button className="save-btn">Save</button>
-                ) : (
-                  <div className="edit-buttons">
-                    <button className="edit-btn">Edit</button>
-                    <button
-                      className="delete-btn"
-                      onClick={() => deleteBudget(budget._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
+                <button className="edit-btn" onClick={() => handleEditBudget(budget)}>Edit</button>
+                <button className="delete-btn" onClick={() => deleteBudget(budget._id)}>Delete</button>
               </td>
             </tr>
           ))}
@@ -175,6 +173,13 @@ function ProjectBudget({ projectId }) {
           )}
         </tbody>
       </table>
+       {/* Edit Budget Modal */}
+       {showEditModal && <EditBudgetModal
+        show={showEditModal}
+        handleClose={() => setShowEditModal(false)}
+        budgetData={editBudgetData}
+        handleUpdate={handleUpdateBudget}
+      />}
     </div>
   );
 }

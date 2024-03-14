@@ -1,8 +1,8 @@
 import React, { useState,useEffect } from "react";
 import Tabs from './Tabs';
-import ProjectOverview from "./ProjectOverview";
+// import ProjectOverview from "./ProjectOverview";
 import ScopeAndStack from "./ScopeAndStack";
-import EscaltionMatrix from "./EscalationMatrix";
+import EscalationMatrix from "./EscalationMatrix";
 import VersionHistory from "./VersionHistory";
 import AuditHistory from "./AuditHistory";
 import ProjectBudget from "./ProjectBudget";
@@ -11,9 +11,14 @@ import { useParams } from 'react-router-dom';
 import RiskProfile from "./RiskProfile";
 import Phases from './Phases';
 import Sprint from './Sprint';
+import ApprovedTeams from "./ApprovedTeams";
+import Resources from "./Resources";
+import ClientFeedback from "./ClientFeedback";
+import ProjectUpdates from "./ProjectUpdates";
+import MoM from "./MoM";
 import '../Styles/EditProjects.css';
 
-const tabs=['Scope & Stacks','Project Budget','Audit History','Version History','Stake Holders','Risk Profile','Phases','Sprint']
+const tabs=['Scope & Stacks','Project Budget','Project Overview','Audit History','Version History','Escalation Matrix','Stake Holders','Risk Profile','Phases','Sprint','Approved Teams','Resources','ClientFeedback','ProjectUpdates','MoM']
 
 function EditProjects() {
     // const projectId=props.location.state;
@@ -37,9 +42,9 @@ function EditProjects() {
                 {
                     activetab==='Scope & Stacks' && <ScopeAndStack projectId={projectId}/>
                 }
-                {/* {
-                    activetab==='Escaltion Matrix' && <EscaltionMatrix/>
-                } */}
+                {
+                    activetab==='Escalation Matrix' && <EscalationMatrix projectId={projectId}/>
+                }
                 {
                     activetab==='Version History' && <VersionHistory projectId={projectId} />
                 }
@@ -60,6 +65,21 @@ function EditProjects() {
                 }
                 {
                     activetab==='Sprint' && <Sprint projectId={projectId}/>
+                }
+                {
+                    activetab==='Approved Teams' && <ApprovedTeams projectId={projectId}/>
+                }
+                {
+                    activetab==='Resources' && <Resources projectId={projectId}/>
+                }
+                {
+                    activetab==='ClientFeedback' && <ClientFeedback projectId={projectId}/>
+                }
+                {
+                    activetab==='ProjectUpdates' && <ProjectUpdates projectId={projectId}/>
+                }
+                {
+                    activetab==='MoM' && <MoM projectId={projectId}/>
                 }
             </div>
         </div>

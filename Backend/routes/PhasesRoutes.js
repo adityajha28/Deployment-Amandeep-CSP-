@@ -9,10 +9,9 @@ router.post('/phases', async (req, res) => {
           Title: req.body.Title,
           startDate: req.body.startDate,
           completionDate: req.body.completionDate,
-          approvalDate: { type: Date, required: true },
-          Status: { type: String },
-          RevisedDate: { type: Date },
-          Comments: { type: String }
+          approvalDate: req.body.approvalDate,
+          RevisedDate: req.body.RevisedDate,
+          Comments: req.body.Comments
     })
   try {
     const phase = new Phases(req.body);
@@ -48,7 +47,7 @@ router.get('/phases/:id', async (req, res) => {
 });
 
 // Update phase entry
-router.patch('/phases/:id', async (req, res) => {
+router.put('/phases/:id', async (req, res) => {
   try {
     const updatedPhase = await Phases.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(updatedPhase);

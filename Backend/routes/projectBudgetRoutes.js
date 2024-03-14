@@ -43,7 +43,7 @@ router.get('/project-budget/:id', async (req, res) => {
 });
 
 // Update project budget entry
-router.patch('/project-budget/:id', async (req, res) => {
+router.put('/project-budget/:id', async (req, res) => {
   try {
     const updatedProjectBudget = await ProjectBudget.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(updatedProjectBudget);

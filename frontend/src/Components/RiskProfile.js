@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../Styles/VersionHistory.css";
+import EditRiskModal from "../Modals/EditRiskModal";
+import ExportAsPdf from "../Service/ExportAsPdf";
 
 function RiskProfile({ projectId }) {
   // console.log(`in versionhistory ${projectId}`)
@@ -16,6 +18,10 @@ function RiskProfile({ projectId }) {
     closureDate: "",
     isEditing: false,
   });
+
+  const [editRisk, setEditRisk] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+
 
   useEffect(() => {
     const fetchAuditHistory = async () => {
@@ -65,42 +71,51 @@ function RiskProfile({ projectId }) {
   };
 
   // deleting a version data from table
-  const deleteAudit = async (auditId) => {
+  const deleteRisk = async (RiskId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/risk-profiles/${auditId}`);
+      await axios.delete(`http://localhost:5000/api/risk-profiles/${RiskId}`);
       // Remove the deleted project from the project list
-      setRiskProfile(RiskProfiles.filter((Audit) => Audit._id !== auditId));
+      setRiskProfile(RiskProfiles.filter((risk) => risk._id !== RiskId));
     } catch (error) {
       console.error("Error deleting audit:", error);
     }
   };
 
-  const handleDownloadAsPdf = async () => {
+  const handleDownloadAsPdf = () => {
+    const columns = [
+      "RiskType",
+      "Description",
+      "Severity",
+      "Impact",
+      "RemedialSteps",
+      "Status",
+      "closureDate",
+    ];
+    ExportAsPdf(RiskProfiles, columns, "Risk_Profile", "Risk Profile");
+  };
+
+  const handleEditVersion = (Version) => {
+    setEditRisk(Version);
+    setShowEditModal(true);
+  };
+
+  const handleUpdateRisk = async (updatedRisk) => {
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/riskprofile/pdf`,
-        RiskProfiles,
-        { responseType: "blob" } // Set response type to blob for downloading file
+      const response = await axios.put(
+        `http://localhost:5000/api/risk-profiles/${updatedRisk._id}`,
+        updatedRisk
       );
-
-      // Create a Blob object from the PDF data
-      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-
-      // Create a URL for the PDF Blob
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-
-      // Create a temporary anchor element to trigger the download
-      const tempLink = document.createElement("a");
-      tempLink.href = pdfUrl;
-      tempLink.setAttribute("download", "Risk_Profile.pdf");
-      tempLink.click();
-
-      // Release the object URL after the download
-      URL.revokeObjectURL(pdfUrl);
+      const updatedRiskProfile = RiskProfiles.map((risk) =>
+      risk._id === updatedRisk._id ? response.data : risk
+      );
+      setRiskProfile(updatedRiskProfile);
+      setShowEditModal(false);
     } catch (error) {
-      console.error("Error downloading PDF:", error);
+      console.error("Error updating version:", error);
     }
   };
+
+
 
   return (
     <div>
@@ -135,19 +150,8 @@ function RiskProfile({ projectId }) {
               <td>{riskprofile.Status}</td>
               <td>{riskprofile.closureDate}</td>
               <td>
-                {riskprofile.isEditing ? (
-                  <button className="save-btn">Save</button>
-                ) : (
-                  <div className="edit-buttons">
-                    <button className="edit-btn">Edit</button>
-                    <button
-                      className="delete-btn"
-                      onClick={() => deleteAudit(riskprofile._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
+                <button className="edit-btn" onClick={() => handleEditVersion(riskprofile)}>Edit</button>
+                <button className="delete-btn" onClick={() => deleteRisk(riskprofile._id)}>Delete</button>
               </td>
             </tr>
           ))}
@@ -225,6 +229,13 @@ function RiskProfile({ projectId }) {
           )}
         </tbody>
       </table>
+
+      {showEditModal && <EditRiskModal
+        show={showEditModal}
+        handleClose={() => setShowEditModal(false)}
+        RiskData={editRisk}
+        handleUpdate={handleUpdateRisk}
+      />}
     </div>
   );
 }

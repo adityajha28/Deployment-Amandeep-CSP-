@@ -37,7 +37,7 @@ function ScopeAndStack({ projectId }) {
   };
 
   return (
-    <div>
+    <div className="scope-and-stack-container">
       <h2>Project Scope and Stack</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -55,7 +55,7 @@ function ScopeAndStack({ projectId }) {
           <label htmlFor="projectScope">Project Scope:</label>
           <textarea id="projectScope" value={projectScope} onChange={(e) => setProjectScope(e.target.value)} />
         </div>
-        <button type="submit">Save</button>
+        <button className='Save-btn' type="submit">Save</button>
       </form>
     </div>
   );

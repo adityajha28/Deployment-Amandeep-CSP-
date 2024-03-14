@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../Styles/VersionHistory.css";
+import EditAuditModal from "../Modals/EditAuditModal";
+import ExportAsPdf from "../Service/ExportAsPdf";
+
 
 function AuditHistory({ projectId }) {
   // console.log(`in versionhistory ${projectId}`)
@@ -16,18 +19,11 @@ function AuditHistory({ projectId }) {
     isEditing: false,
   });
 
-  const [editAudit, setEditAudit] = useState({
-    _id: null,
-    DateofAudit: "",
-    reviewedBy: "",
-    status: "",
-    reviewedSection: "",
-    comment: "",
-    actionItem: "",
-    isEditing: false,
-  });
+  const [editAudit, setEditAudit] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
-  useEffect(() => {
+
+  useEffect(() => { 
     const fetchAuditHistory = async () => {
       try {
         const response = await axios.get(
@@ -41,6 +37,9 @@ function AuditHistory({ projectId }) {
 
     fetchAuditHistory();
   }, [projectId]);
+
+  console.log(AuditHistory);
+
 
   const handleAddNewAudit = () => {
     setNewAudit({ ...newAudit, isEditing: true });
@@ -74,34 +73,31 @@ function AuditHistory({ projectId }) {
     }
   };
 
-  const handleEditAudit = (audit) => {
-    setEditAudit({ ...audit, isEditing: true });
-  };
 
-  const handleSaveEditedAudit = async () => {
-    try {
-      const response = await axios.put(
-        `http://localhost:5000/api/audit-history/${editAudit._id}`,
-        editAudit
-      );
-      const updatedAuditHistory = AuditHistory.map((audit) =>
-        audit._id === editAudit._id ? editAudit : audit
-      );
-      setAuditHistory(updatedAuditHistory);
-      setEditAudit({
-        _id: null,
-        DateofAudit: "",
-        reviewedBy: "",
-        status: "",
-        reviewedSection: "",
-        comment: "",
-        actionItem: "",
-        isEditing: false,
-      });
-    } catch (error) {
-      console.error("Error saving edited version:", error);
-    }
-  };
+  // const handleSaveEditedAudit = async () => {
+  //   try {
+  //     const response = await axios.put(
+  //       `http://localhost:5000/api/audit-history/${editAudit._id}`,
+  //       editAudit
+  //     );
+  //     const updatedAuditHistory = AuditHistory.map((audit) =>
+  //       audit._id === editAudit._id ? editAudit : audit
+  //     );
+  //     setAuditHistory(updatedAuditHistory);
+  //     setEditAudit({
+  //       _id: null,
+  //       DateofAudit: "",
+  //       reviewedBy: "",
+  //       status: "",
+  //       reviewedSection: "",
+  //       comment: "",
+  //       actionItem: "",
+  //       isEditing: false,
+  //     });
+  //   } catch (error) {
+  //     console.error("Error saving edited version:", error);
+  //   }
+  // };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -119,32 +115,40 @@ function AuditHistory({ projectId }) {
     }
   };
 
-  const handleDownloadAsPdf = async () => {
+  const handleDownloadAsPdf = () => {
+    const columns = [
+      "DateofAudit",
+      "reviewedBy",
+      "status",
+      "reviewedSection",
+      "comment",
+      "actionItem",
+    ];
+    ExportAsPdf(AuditHistory, columns, "audit_history","Audit History");
+  };
+
+  const handleEditAudit = (audit) => {
+    setEditAudit(audit);
+    setShowEditModal(true);
+  };
+
+  const handleUpdateAudit = async (updatedAudit) => {
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/audit-history/pdf`,
-        AuditHistory,
-        { responseType: "blob" } // Set response type to blob for downloading file
+      const response = await axios.put(
+        `http://localhost:5000/api/audit-history/${updatedAudit._id}`,
+        updatedAudit
       );
-
-      // Create a Blob object from the PDF data
-      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-
-      // Create a URL for the PDF Blob
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-
-      // Create a temporary anchor element to trigger the download
-      const tempLink = document.createElement("a");
-      tempLink.href = pdfUrl;
-      tempLink.setAttribute("download", "audit_history.pdf");
-      tempLink.click();
-
-      // Release the object URL after the download
-      URL.revokeObjectURL(pdfUrl);
+      const updatedAudits = AuditHistory.map((audit) =>
+      audit._id === updatedAudit._id ? response.data : audit
+      );
+      setAuditHistory(updatedAudits);
+      setShowEditModal(false);
     } catch (error) {
-      console.error("Error downloading PDF:", error);
+      console.error("Error updating budget:", error);
     }
   };
+
+
 
   return (
     <div>
@@ -176,24 +180,8 @@ function AuditHistory({ projectId }) {
               <td>{audit.comment}</td>
               <td>{audit.actionItem}</td>
               <td>
-              {audit._id === editAudit._id && editAudit.isEditing ? (
-                  <button
-                    className="save-btn"
-                    onClick={handleSaveEditedAudit}
-                  >
-                    Save
-                  </button>
-                )  : (
-                  <div className="edit-buttons">
-                    <button className="edit-btn" onClick={() => handleEditAudit(audit)}>Edit</button>
-                    <button
-                      className="delete-btn"
-                      onClick={() => deleteAudit(audit._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
+                <button className="edit-btn" onClick={() => handleEditAudit(audit)}>Edit</button>
+                <button className="delete-btn" onClick={() => deleteAudit(audit._id)}>Delete</button>
               </td>
             </tr>
           ))}
@@ -262,6 +250,13 @@ function AuditHistory({ projectId }) {
           )}
         </tbody>
       </table>
+
+      {showEditModal && <EditAuditModal
+        show={showEditModal}
+        handleClose={() => setShowEditModal(false)}
+        AuditData={editAudit}
+        handleUpdate={handleUpdateAudit}
+      />}
     </div>
   );
 }

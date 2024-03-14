@@ -1,45 +1,50 @@
+// Import necessary packages
 const express = require('express');
 const router = express.Router();
-const pdfkit = require('pdfkit');
-// const jsPDF = require('jspdf');
+const jsPDF = require('jspdf');
+require('jspdf-autotable');
 
-// Endpoint for generating PDF from audit history data
-router.post('/audit-history/pdf', async (req, res) => {
+// Define route for generating PDF
+router.post('/audit-history/pdf', (req, res) => {
   try {
+    const auditHistory = req.body;
+
     // Create a new PDF document
-    const doc = new pdfkit();
+    const doc = new jsPDF();
 
-    // Set content type as PDF
-    res.setHeader('Content-Type', 'application/pdf');
-    
-    // Pipe PDF content to response
-    doc.pipe(res);
+    // Define columns for the table
+    const columns = ['Date of Audit', 'Reviewed By', 'Status', 'Reviewed Section', 'Comment', 'Action Item'];
 
-    // Add header row to the table
-    doc.font('Helvetica-Bold').text('Audit History', { align: 'center' });
-    doc.moveDown(1);
-    const headers = ['Date of Audit', 'Reviewed By', 'Status', 'Reviewed Section', 'Comments', 'Action Items'];
-    doc.font('Helvetica-Bold').text(headers.join('\t\t'), { align: 'left' });
+    // Map audit history data to rows
+    const rows = auditHistory.map((audit) => [
+      audit.DateofAudit,
+      audit.reviewedBy,
+      audit.status,
+      audit.reviewedSection,
+      audit.comment,
+      audit.actionItem
+    ]);
+    console.log(rows);
 
-    // Add audit history data to the table with spacing
-    req.body.forEach(audit => {
-      const rowData = [
-        audit.DateofAudit.padEnd(20),
-        audit.reviewedBy.padEnd(20),
-        audit.status.padEnd(20),
-        audit.reviewedSection.padEnd(20),
-        audit.comment.padEnd(20),
-        audit.actionItem.padEnd(20)
-      ];
-      doc.font('Helvetica').text(rowData.join('\t\t'), { align: 'left' });
+    // Add table to PDF document
+    doc.autoTable({
+      theme:grid,
+      head: [columns],
+      body: rows,
     });
 
-    // Finalize the PDF and send it to the client
-    doc.end();
+    // Generate PDF as a Blob
+    const pdfBlob = doc.output('blob');
+
+    // Send PDF file as response
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=audit_history.pdf');
+    res.send(pdfBlob);
   } catch (error) {
     console.error('Error generating PDF:', error);
     res.status(500).send('Error generating PDF');
   }
 });
 
+// Export router
 module.exports = router;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import '../Styles/VersionHistory.css';
+import EditVersionModal from '../Modals/EditVersionModal';
+import ExportAsPdf from "../Service/ExportAsPdf";
 
 function VersionHistory({ projectId }) {
   // console.log(`in versionhistory ${projectId}`)
@@ -9,14 +11,18 @@ function VersionHistory({ projectId }) {
     version: "",
     projectId: `${projectId}`,
     Type: "",
-    Change: "",
-    ChangeReason: "",
+    change: "",
+    changeReason: "",
     createdBy: "",
     revisionDate: "",
     approvalDate: "",
     approvedBy: "",
     isEditing: false,
   });
+
+  const [editVersion, setEditVersion] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+
 
   useEffect(() => {
     const fetchVersionHistory = async () => {
@@ -81,32 +87,42 @@ function VersionHistory({ projectId }) {
       console.error("Error deleting version:", error);
     }
   };
-  const handleDownloadAsPdf = async () => {
+
+  const handleDownloadAsPdf = () => {
+    const columns = [
+      "version",
+      "Type",
+      "change",
+      "changeReason",
+      "createdBy",
+      "revisionDate",
+      "approvalDate",
+      "approvedBy",
+    ];
+    ExportAsPdf(versionHistory, columns, "Version_History", "Version History");
+  };
+
+  const handleEditVersion = (Version) => {
+    setEditVersion(Version);
+    setShowEditModal(true);
+  };
+
+  const handleUpdateVersion = async (updatedVersion) => {
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/version-history/pdf`,
-        versionHistory,
-        { responseType: "blob" } // Set response type to blob for downloading file
+      const response = await axios.put(
+        `http://localhost:5000/api/version-history/${updatedVersion._id}`,
+        updatedVersion
       );
-
-      // Create a Blob object from the PDF data
-      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-
-      // Create a URL for the PDF Blob
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-
-      // Create a temporary anchor element to trigger the download
-      const tempLink = document.createElement("a");
-      tempLink.href = pdfUrl;
-      tempLink.setAttribute("download", "version_history.pdf");
-      tempLink.click();
-
-      // Release the object URL after the download
-      URL.revokeObjectURL(pdfUrl);
+      const updatedVersions = versionHistory.map((Version) =>
+      Version._id === updatedVersion._id ? response.data : Version
+      );
+      setVersionHistory(updatedVersions);
+      setShowEditModal(false);
     } catch (error) {
-      console.error("Error downloading PDF:", error);
+      console.error("Error updating version:", error);
     }
   };
+
 
   return (
       <div>
@@ -129,27 +145,19 @@ function VersionHistory({ projectId }) {
           </tr>
         </thead>
         <tbody>
-          {versionHistory.map((version, index) => (
+          {versionHistory.map((Version, index) => (
             <tr key={index}>
-              <td>{version.version}</td>
-              <td>{version.Type}</td>
-              <td>{version.change}</td>
-              <td>{version.changeReason}</td>
-              <td>{version.createdBy}</td>
-              <td>{version.revisionDate}</td>
-              <td>{version.approvalDate}</td>
-              <td>{version.approvedBy}</td>
+              <td>{Version.version}</td>
+              <td>{Version.Type}</td>
+              <td>{Version.change}</td>
+              <td>{Version.changeReason}</td>
+              <td>{Version.createdBy}</td>
+              <td>{Version.revisionDate}</td>
+              <td>{Version.approvalDate}</td>
+              <td>{Version.approvedBy}</td>
               <td>
-                {version.isEditing ? (
-                  <button className="save-btn">Save</button>
-                ) : (
-                  <div className="edit-buttons">
-                    <button className="edit-btn">Edit</button>
-                    <button className="delete-btn" onClick={() => deleteVersion(version._id)}>
-                      Delete
-                    </button>
-                  </div>
-                )}
+                <button className="edit-btn" onClick={() => handleEditVersion(Version)}>Edit</button>
+                <button className="delete-btn" onClick={() => deleteVersion(Version._id)}>Delete</button>
               </td>
             </tr>
           ))}
@@ -226,6 +234,13 @@ function VersionHistory({ projectId }) {
           )}
         </tbody>
       </table>
+
+      {showEditModal && <EditVersionModal
+        show={showEditModal}
+        handleClose={() => setShowEditModal(false)}
+        VersionData={editVersion}
+        handleUpdate={handleUpdateVersion}
+      />}
     </div>
   );
 }

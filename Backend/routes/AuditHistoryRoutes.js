@@ -13,7 +13,6 @@ router.post('/audit-history', async (req, res) => {
         comment:req.body.comment,
         actionItem:req.body.actionItem
     });
-    console.log(auditHistory);
     try{
         const newauditHistory=await auditHistory.save()
         res.status(201).json(newauditHistory);

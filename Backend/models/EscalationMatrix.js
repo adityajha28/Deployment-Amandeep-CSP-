@@ -7,7 +7,15 @@ const EscalationMatrixschema = new mongoose.Schema({
     required: true
   },
   escalationType:{
-    type:Array,
+    type:String,
+    required:true
+  },
+  escaltionLevel:{
+    type:Number,
+    required:true
+  },
+  role:{
+    type:String,
     required:true
   }
   

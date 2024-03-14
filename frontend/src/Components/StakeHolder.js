@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../Styles/VersionHistory.css";
+import EditStakeHolderModal from "../Modals/EditStakeHolderModal";
+import ExportAsPdf from "../Service/ExportAsPdf";
 
 function StakeHolder({ projectId }) {
   // console.log(`in versionhistory ${projectId}`)
@@ -12,6 +14,9 @@ function StakeHolder({ projectId }) {
     Contact: "",
     isEditing: false,
   });
+
+  const [editStakeHolder, setEditStakeHolder] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   useEffect(() => {
     const fetchBudgetHistory = async () => {
@@ -68,32 +73,37 @@ function StakeHolder({ projectId }) {
     }
   };
 
-  const handleDownloadAsPdf = async () => {
+  const handleDownloadAsPdf = () => {
+    const columns = [
+      "Title",
+      "Name",
+      "Contact",
+    ];
+    ExportAsPdf(StakeHolders, columns, "Stake_holders", "Stake Holders");
+  };
+
+  const handleEditStakeHolder = (stakeholder) => {
+    setEditStakeHolder(stakeholder);
+    setShowEditModal(true);
+  };
+
+  const handleUpdateStakeHolder = async (updatedStake) => {
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/stakeholder/pdf`,
-        StakeHolders,
-        { responseType: "blob" } // Set response type to blob for downloading file
+      const response = await axios.put(
+        `http://localhost:5000/api/stakeholders/${updatedStake._id}`,
+        updatedStake
       );
-
-      // Create a Blob object from the PDF data
-      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-
-      // Create a URL for the PDF Blob
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-
-      // Create a temporary anchor element to trigger the download
-      const tempLink = document.createElement("a");
-      tempLink.href = pdfUrl;
-      tempLink.setAttribute("download", "StakeHolder.pdf");
-      tempLink.click();
-
-      // Release the object URL after the download
-      URL.revokeObjectURL(pdfUrl);
+      const updatedStakeHolder = StakeHolders.map((stake) =>
+      stake._id === updatedStake._id ? response.data : stake
+      );
+      setStakeHolder(updatedStakeHolder);
+      setShowEditModal(false);
     } catch (error) {
-      console.error("Error downloading PDF:", error);
+      console.error("Error updating version:", error);
     }
   };
+
+
 
   return (
     <div>
@@ -109,7 +119,7 @@ function StakeHolder({ projectId }) {
           <tr>
             <th>Title</th>
             <th>Name</th>
-            <th>Budgeted Hours</th>
+            <th>Contact</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -120,19 +130,8 @@ function StakeHolder({ projectId }) {
               <td>{stakeHolder.Name}</td>
               <td>{stakeHolder.Contact}</td>
               <td>
-                {stakeHolder.isEditing ? (
-                  <button className="save-btn">Save</button>
-                ) : (
-                  <div className="edit-buttons">
-                    <button className="edit-btn">Edit</button>
-                    <button
-                      className="delete-btn"
-                      onClick={() => deleteStakeHolder(stakeHolder._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
+                <button className="edit-btn" onClick={() => handleEditStakeHolder(stakeHolder)}>Edit</button>
+                <button className="delete-btn" onClick={() => deleteStakeHolder(stakeHolder._id)}>Delete</button>
               </td>
             </tr>
           ))}
@@ -175,6 +174,14 @@ function StakeHolder({ projectId }) {
           )}
         </tbody>
       </table>
+
+      {showEditModal && <EditStakeHolderModal
+        show={showEditModal}
+        handleClose={() => setShowEditModal(false)}
+        StakeHolderData={editStakeHolder}
+        handleUpdate={handleUpdateStakeHolder}
+      />}
+
     </div>
   );
 }

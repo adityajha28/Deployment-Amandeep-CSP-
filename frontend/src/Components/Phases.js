@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../Styles/VersionHistory.css";
+import EditPhaseModal from '../Modals/EditPhaseModal';
+import ExportAsPdf from "../Service/ExportAsPdf";
 
 function Phases({ projectId }) {
   // console.log(`in versionhistory ${projectId}`)
@@ -16,6 +18,9 @@ function Phases({ projectId }) {
             Comments:"",
             isEditing: false,
   });
+
+  const [editPhases, setEditPhases] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   useEffect(() => {
     const fetchProjectPhases = async () => {
@@ -77,30 +82,37 @@ function Phases({ projectId }) {
   };
 
   
-  const handleDownloadAsPdf = async () => {
+  const handleDownloadAsPdf = () => {
+    const columns = [
+      "Title",
+      "startDate",
+      "completionDate",
+      "approvalDate",
+      "Status",
+      "RevisedDate",
+      "Comments",
+    ];
+    ExportAsPdf(ProjectPhases, columns, "Project_Phases","Project Phases");
+  };
+
+  const handleEditPhase = (Phase) => {
+    setEditPhases(Phase);
+    setShowEditModal(true);
+  };
+
+  const handleUpdatePhase = async (updatedPhase) => {
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/phases/pdf`,
-        ProjectPhases,
-        { responseType: "blob" } // Set response type to blob for downloading file
+      const response = await axios.put(
+        `http://localhost:5000/api/phases/${updatedPhase._id}`,
+        updatedPhase
       );
-
-      // Create a Blob object from the PDF data
-      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-
-      // Create a URL for the PDF Blob
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-
-      // Create a temporary anchor element to trigger the download
-      const tempLink = document.createElement("a");
-      tempLink.href = pdfUrl;
-      tempLink.setAttribute("download", "Phases.pdf");
-      tempLink.click();
-
-      // Release the object URL after the download
-      URL.revokeObjectURL(pdfUrl);
+      const updatedPhases = ProjectPhases.map((Phase) =>
+      Phase._id === updatedPhase._id ? response.data : Phase
+      );
+      setPhase(updatedPhases);
+      setShowEditModal(false);
     } catch (error) {
-      console.error("Error downloading PDF:", error);
+      console.error("Error updating budget:", error);
     }
   };
 
@@ -137,19 +149,8 @@ function Phases({ projectId }) {
               <td>{projectphase.RevisedDate}</td>
               <td>{projectphase.Comments}</td>
               <td>
-                {projectphase.isEditing ? (
-                  <button className="save-btn">Save</button>
-                ) : (
-                  <div className="edit-buttons">
-                    <button className="edit-btn">Edit</button>
-                    <button
-                      className="delete-btn"
-                      onClick={() => deletePhase(projectphase._id)}
-                    >
-                      Delete
-                    </button>
-                  </div> 
-                )}
+                <button className="edit-btn" onClick={() => handleEditPhase(projectphase)}>Edit</button>
+                <button className="delete-btn" onClick={() => deletePhase(projectphase._id)}>Delete</button>
               </td>
             </tr>
           ))}
@@ -227,6 +228,13 @@ function Phases({ projectId }) {
           )}
         </tbody>
       </table>
+
+      {showEditModal && <EditPhaseModal
+        show={showEditModal}
+        handleClose={() => setShowEditModal(false)}
+        PhaseData={editPhases}
+        handleUpdate={handleUpdatePhase}
+      />}
     </div>
   );
 }

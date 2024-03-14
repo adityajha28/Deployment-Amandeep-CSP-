@@ -7,7 +7,7 @@ function Navbar() {
             <div className="logo">
                 
             </div>
-            <h2>Customer support</h2>
+            <h2>Customer success</h2>
             {/* <Search className="Searchbar" placeholder="search" /> */}
         </nav>
     );
