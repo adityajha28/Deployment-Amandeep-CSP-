@@ -33,7 +33,7 @@ function EditProjects() {
 
     return (  
         <div className="EditProjects">
-            <Tabs tabs={tabs} activetab={activetab} setActiveTabs={setActiveTabs}/>
+            <Tabs  tabs={tabs} activetab={activetab} setActiveTabs={setActiveTabs}/>
             <hr/>
             <div>
                 {/* {

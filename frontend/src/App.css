@@ -1,6 +1,6 @@
 .lowerContent{
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   margin-top: 20px;
   background-color: #F8F8F8;
@@ -10,5 +10,7 @@
 .MainPage{
   width: 100vw;
   height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
   /* background-color: #F8F8F8; */
 }

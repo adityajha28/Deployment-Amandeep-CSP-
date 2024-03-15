@@ -1,0 +1,41 @@
+.credentials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    gap: 7px;
+    /* flex-direction: column; */
+  }
+  
+  .userimg {
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  
+  .userimg img {
+    width: 50px; /* Adjust size as needed */
+    height: 50px; /* Adjust size as needed */
+    border-radius: 50%;
+  }
+  
+  .authentication {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+ .logout-btn {
+    background-color: #f90a0a; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none;
+    border-radius: 5px;
+    padding: 5px 12px;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  
+  .logout-btn:hover {
+    background-color: #ae2828; /* Hover background color */
+  }
+  

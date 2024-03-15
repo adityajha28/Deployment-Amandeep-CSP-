@@ -5,11 +5,11 @@ function Tabs({tabs,activetab,setActiveTabs}) {
         <div className="Tabs">
             {
                 tabs.map((tab, index) => (
-                   <div key={index} onClick={()=>setActiveTabs(tab)} className={activetab === tab ? 'active' : ''}>
+                   <span  key={index} onClick={()=>setActiveTabs(tab)} className={`${activetab === tab ? 'active' : ''} SingleTab`}>
                     {
                         tab
                     }
-                </div>))
+                </span>))
             }
         </div>
     );

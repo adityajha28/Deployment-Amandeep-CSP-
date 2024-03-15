@@ -38,6 +38,7 @@
 
 .ProjectTable table {
   border: 1px solid #dddddd;
+  width: 1236px;
 }
 
 .ProjectTable th, .ProjectTable td {

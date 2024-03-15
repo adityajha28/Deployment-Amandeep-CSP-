@@ -4,5 +4,22 @@
     box-sizing: border-box;
 }
 .Navbar{
+    max-height: 50px;
+    padding: 2px;
     display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.logo{
+    display: flex;
+    width: 150px;
+    gap: 8px;
+}
+.SearchBar{
+    width: 60%;
+    margin-right: 50px;
+}
+.Heading{
+    font-size: medium;
+    font-weight:900;
 }

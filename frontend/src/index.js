@@ -4,12 +4,23 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { Auth0Provider } from '@auth0/auth0-react';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+      <Auth0Provider
+            domain={"dev-hkk5ncj8gt423kg7.us.auth0.com"}
+            clientId={"a5IY0Z0VdOocDdyBM2madfyhkBx8HZki"}
+            authorizationParams={{
+                  redirect_uri: window.location.origin
+            }}
+            useRedirectTo={true}
+      >
       <BrowserRouter>
        <App />
       </BrowserRouter>
+       </Auth0Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
