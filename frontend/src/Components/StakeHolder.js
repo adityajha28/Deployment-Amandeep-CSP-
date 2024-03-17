@@ -4,7 +4,7 @@ import "../Styles/VersionHistory.css";
 import EditStakeHolderModal from "../Modals/EditStakeHolderModal";
 import ExportAsPdf from "../Service/ExportAsPdf";
 
-function StakeHolder({ projectId }) {
+function StakeHolder({ projectId,role }) {
   // console.log(`in versionhistory ${projectId}`)
   const [StakeHolders, setStakeHolder] = useState([]);
   const [newStakeHolder, setNewStakeHolder] = useState({
@@ -33,7 +33,7 @@ function StakeHolder({ projectId }) {
     fetchBudgetHistory();
   }, [projectId]);
 
-  const handleAddNewAudit = () => {
+  const handleAddNewStakeHolder = () => {
     setNewStakeHolder({ ...newStakeHolder, isEditing: true });
   };
 
@@ -108,9 +108,9 @@ function StakeHolder({ projectId }) {
   return (
     <div>
       <div className="top-btns">
-      <button className="add-version-btn" onClick={handleAddNewAudit}>
+      {(role==="Admin" || role==="Auditor" || role==="Project Manager") && ( <button className="add-version-btn" onClick={handleAddNewStakeHolder}>
         Add StakeHolder
-      </button>
+      </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
       </div>
 

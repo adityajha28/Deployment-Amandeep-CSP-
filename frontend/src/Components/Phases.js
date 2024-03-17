@@ -4,7 +4,7 @@ import "../Styles/VersionHistory.css";
 import EditPhaseModal from '../Modals/EditPhaseModal';
 import ExportAsPdf from "../Service/ExportAsPdf";
 
-function Phases({ projectId }) {
+function Phases({ projectId,role }) {
   // console.log(`in versionhistory ${projectId}`)
   const [ProjectPhases, setPhase] = useState([]);
   const [newProjectPhase, setNewPhase] = useState({
@@ -119,9 +119,9 @@ function Phases({ projectId }) {
   return (
     <div>
       <div className="top-btns">
-      <button className="add-version-btn" onClick={handleAddNewPhase}>
-        Add Phase
-      </button>
+      {(role==="Admin"  || role==="Project Manager") && ( <button className="add-version-btn" onClick={handleAddNewPhase}>
+        Add Audit
+      </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
       </div>
 

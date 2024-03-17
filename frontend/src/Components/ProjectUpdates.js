@@ -4,7 +4,7 @@ import axios from "axios";
 import EditProjectUpdate from "../Modals/EditProjectUpdate";
 import ExportAsPdf from "../Service/ExportAsPdf";
 
-function ProjectUpdates({ projectId }) {
+function ProjectUpdates({ projectId,role}) {
   // console.log(`in versionhistory ${projectId}`)
   const [projectUpdates, setProjectUpdates] = useState([]);
   const [newProjectUpdate, setNewProjectUpdate] = useState({
@@ -104,9 +104,9 @@ function ProjectUpdates({ projectId }) {
   return (
     <div>
       <div className="top-btns">
-      <button className="add-version-btn" onClick={handleAddNewUpdate}>
-        Add Project Update
-      </button>
+      {(role==="Admin"  || role==="Project Manager")  &&( <button className="add-version-btn" onClick={handleAddNewUpdate}>
+        Add ProjectUpdate
+      </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
       </div>
 
@@ -115,7 +115,7 @@ function ProjectUpdates({ projectId }) {
           <tr>
             <th>Date</th>
             <th>General Updates</th>
-            <th>Actions</th>
+            {(role==="Admin" || role==="Project Manager") && (<th>Actions</th>)}
           </tr>
         </thead>
         <tbody>
@@ -123,10 +123,10 @@ function ProjectUpdates({ projectId }) {
             <tr key={index}>
               <td>{updates.date}</td>
               <td>{updates.generalUpdates}</td>
-              <td>
+              {(role==="Admin" || role==="Project Manager") && (<td>
                 <button className="edit-btn" onClick={() => handleEditBudget(updates)}>Edit</button>
                 <button className="delete-btn" onClick={() => deleteProjectUpdate(updates._id)}>Delete</button>
-              </td>
+              </td>)}
             </tr>
           ))}
           {newProjectUpdate.isEditing && (

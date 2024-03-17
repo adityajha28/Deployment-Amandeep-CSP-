@@ -4,11 +4,16 @@
     box-sizing: border-box;
 }
 .Navbar{
-    max-height: 50px;
-    padding: 2px;
+    max-height: 70px;
+    padding: 5px;
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
+    background-color: #fff;
+    margin-top: 5px;
+}
+.Csp-Logo{
+    width: 50px;
+    height: 50px;
 }
 .logo{
     display: flex;

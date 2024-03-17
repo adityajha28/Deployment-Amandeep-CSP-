@@ -4,7 +4,7 @@ import axios from "axios";
 import EditBudgetModal from "../Modals/EditBudgetModal";
 import ExportAsPdf from "../Service/ExportAsPdf";
 
-function ProjectBudget({ projectId }) {
+function ProjectBudget({ projectId,role }) {
   // console.log(`in versionhistory ${projectId}`)
   const [projectBudget, setProjectBudget] = useState([]);
   const [newBudget, setNewBudget] = useState({
@@ -33,7 +33,7 @@ function ProjectBudget({ projectId }) {
     fetchBudgetHistory();
   }, [projectId]);
 
-  const handleAddNewAudit = () => {
+  const handleAddNewBudget = () => {
     setNewBudget({ ...newBudget, isEditing: true });
   };
 
@@ -107,9 +107,9 @@ function ProjectBudget({ projectId }) {
   return (
     <div>
       <div className="top-btns">
-      <button className="add-version-btn" onClick={handleAddNewAudit}>
-        Add Budget
-      </button>
+      {(role==="Admin"  || role==="Project Manager")  &&( <button className="add-version-btn" onClick={handleAddNewBudget}>
+        Add Audit
+      </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
       </div>
 
@@ -119,7 +119,8 @@ function ProjectBudget({ projectId }) {
             <th>Project Type</th>
             <th>Duration in months</th>
             <th>Budgeted Hours</th>
-            <th>Actions</th>
+            {(role==="Admin" || role==="Project Manager") &&( <th>Actions</th>)}
+           
           </tr>
         </thead>
         <tbody>
@@ -128,10 +129,11 @@ function ProjectBudget({ projectId }) {
               <td>{budget.projectType}</td>
               <td>{budget.Duration}</td>
               <td>{budget.budgetHours}</td>
-              <td>
+              {(role==="Admin" || role==="Project Manager") &&(<td>
                 <button className="edit-btn" onClick={() => handleEditBudget(budget)}>Edit</button>
                 <button className="delete-btn" onClick={() => deleteBudget(budget._id)}>Delete</button>
-              </td>
+              </td>)}
+              
             </tr>
           ))}
           {newBudget.isEditing && (

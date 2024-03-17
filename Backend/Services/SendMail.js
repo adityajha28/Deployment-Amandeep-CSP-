@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
+const Project =require("../models/project")
 
 
 let transporter = nodemailer.createTransport({
@@ -19,6 +20,17 @@ router.post('/send-email', async (req, res) => {
     try {
         // Send mail with defined transport object
 
+        const projectId = req.body.projectId; // Assuming you pass the project ID in the request body
+        const project = await Project.findById(projectId);
+
+        if (!project) {
+            return res.status(404).send('Project not found');
+        }
+        // Extract client email from project details
+        const clientEmail = project.clientEmail;
+        
+
+
         const emailBody = `
         Hello StakeHolder
         Please note that audit History has been completed and here is the audit summary:
@@ -33,7 +45,7 @@ router.post('/send-email', async (req, res) => {
 
         let info = await transporter.sendMail({
             from: 'amandeeprewani21@gmail.com', // sender address
-            to: 'cse20108@cemk.ac.in', // list of receivers
+            to: clientEmail, // list of receivers
             subject: req.body.subject, // Subject line
             text: emailBody // plain text body
         });

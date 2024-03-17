@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Styles/EscalationMatrix.css';
 
-function EscalationMatrix({ projectId }) {
+function EscalationMatrix({ projectId,role }) {
   const [escalationData, setEscalationData] = useState([]);
   const [newEscalation, setNewEscalation] = useState({
     projectId: projectId,
@@ -141,7 +141,9 @@ function OperationalEscalationTable({ escalationData }) {
   }
 
   return (
+    
     <div className="escalation-matrix">
+      {(role==="Admin" || role==="Project Manager") && ( <>
     <h2>Add New Escalation Matrix Entry</h2>
     <form onSubmit={handleSubmit} className='FormContainer'>
       <label>
@@ -160,14 +162,18 @@ function OperationalEscalationTable({ escalationData }) {
       <button className="AddEntry" type="submit">Add</button>
       </div>
     </form>
+    </>)}
+     
 
     <div className="escalation-tables">
       <OperationalEscalationTable escalationData={escalationData} />
       <FinancialEscalationTable escalationData={escalationData} />
       <TechnicalEscalationTable escalationData={escalationData} />
     </div>
+    
   </div>
   );
+  
 }
 
 

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import '../Styles/VersionHistory.css';
-import EditVersionModal from '../Modals/EditVersionModal';
+import "../Styles/VersionHistory.css";
+import EditVersionModal from "../Modals/EditVersionModal";
 import ExportAsPdf from "../Service/ExportAsPdf";
 
-function VersionHistory({ projectId }) {
+function VersionHistory({ projectId,role}) {
   // console.log(`in versionhistory ${projectId}`)
   const [versionHistory, setVersionHistory] = useState([]);
   const [newVersion, setNewVersion] = useState({
@@ -22,7 +22,6 @@ function VersionHistory({ projectId }) {
 
   const [editVersion, setEditVersion] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
-
 
   useEffect(() => {
     const fetchVersionHistory = async () => {
@@ -114,7 +113,7 @@ function VersionHistory({ projectId }) {
         updatedVersion
       );
       const updatedVersions = versionHistory.map((Version) =>
-      Version._id === updatedVersion._id ? response.data : Version
+        Version._id === updatedVersion._id ? response.data : Version
       );
       setVersionHistory(updatedVersions);
       setShowEditModal(false);
@@ -123,12 +122,17 @@ function VersionHistory({ projectId }) {
     }
   };
 
-
   return (
-      <div>
+    <div>
       <div className="top-btns">
-      <button className="add-version-btn" onClick={handleAddNewVersion}>Add Version</button>
-      <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
+        {(role === "Admin" || role === "Project Manager") && (
+          <button className="add-version-btn" onClick={handleAddNewVersion}>
+            Add Version
+          </button>
+        )}
+        <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>
+          Download As PDF
+        </button>
       </div>
       <table className="version-history-table">
         <thead>
@@ -141,7 +145,7 @@ function VersionHistory({ projectId }) {
             <th>Revision Date</th>
             <th>Approval Date</th>
             <th>Approved By</th>
-            <th>Actions</th>
+            {(role==="Admin" || role==="Project Manager")&&(<th>Actions</th>)}
           </tr>
         </thead>
         <tbody>
@@ -155,16 +159,27 @@ function VersionHistory({ projectId }) {
               <td>{Version.revisionDate}</td>
               <td>{Version.approvalDate}</td>
               <td>{Version.approvedBy}</td>
-              <td>
-                <button className="edit-btn" onClick={() => handleEditVersion(Version)}>Edit</button>
-                <button className="delete-btn" onClick={() => deleteVersion(Version._id)}>Delete</button>
-              </td>
+              {(role==="Admin" || role==="Project Manager")&& (<td>
+                <button
+                  className="edit-btn"
+                  onClick={() => handleEditVersion(Version)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="delete-btn"
+                  onClick={() => deleteVersion(Version._id)}
+                >
+                  Delete
+                </button>
+              </td>)}
             </tr>
           ))}
           {newVersion.isEditing && (
             <tr>
               <td>
-                <input className="inputfield"
+                <input
+                  className="inputfield"
                   type="text"
                   name="version"
                   value={newVersion.version}
@@ -172,7 +187,8 @@ function VersionHistory({ projectId }) {
                 />
               </td>
               <td>
-                <input className="inputfield"
+                <input
+                  className="inputfield"
                   type="text"
                   name="Type"
                   value={newVersion.Type}
@@ -180,7 +196,8 @@ function VersionHistory({ projectId }) {
                 />
               </td>
               <td>
-                <input className="inputfield"
+                <input
+                  className="inputfield"
                   type="text"
                   name="change"
                   value={newVersion.change}
@@ -188,7 +205,8 @@ function VersionHistory({ projectId }) {
                 />
               </td>
               <td>
-                <input className="inputfield"
+                <input
+                  className="inputfield"
                   type="text"
                   name="changeReason"
                   value={newVersion.changeReason}
@@ -196,7 +214,8 @@ function VersionHistory({ projectId }) {
                 />
               </td>
               <td>
-                <input className="inputfield"
+                <input
+                  className="inputfield"
                   type="text"
                   name="createdBy"
                   value={newVersion.createdBy}
@@ -204,7 +223,8 @@ function VersionHistory({ projectId }) {
                 />
               </td>
               <td>
-                <input className="inputfield"
+                <input
+                  className="inputfield"
                   type="date"
                   name="revisionDate"
                   value={newVersion.revisionDate}
@@ -212,7 +232,8 @@ function VersionHistory({ projectId }) {
                 />
               </td>
               <td>
-                <input className="inputfield"
+                <input
+                  className="inputfield"
                   type="date"
                   name="approvalDate"
                   value={newVersion.approvalDate}
@@ -220,7 +241,8 @@ function VersionHistory({ projectId }) {
                 />
               </td>
               <td>
-                <input className="inputfield"
+                <input
+                  className="inputfield"
                   type="text"
                   name="approvedBy"
                   value={newVersion.approvedBy}
@@ -228,19 +250,23 @@ function VersionHistory({ projectId }) {
                 />
               </td>
               <td>
-                <button onClick={handleSaveNewVersion} className="save-btn">Save</button>
+                <button onClick={handleSaveNewVersion} className="save-btn">
+                  Save
+                </button>
               </td>
             </tr>
           )}
         </tbody>
       </table>
 
-      {showEditModal && <EditVersionModal
-        show={showEditModal}
-        handleClose={() => setShowEditModal(false)}
-        VersionData={editVersion}
-        handleUpdate={handleUpdateVersion}
-      />}
+      {showEditModal && (
+        <EditVersionModal
+          show={showEditModal}
+          handleClose={() => setShowEditModal(false)}
+          VersionData={editVersion}
+          handleUpdate={handleUpdateVersion}
+        />
+      )}
     </div>
   );
 }

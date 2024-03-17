@@ -3,7 +3,7 @@ import axios from "axios";
 import "../Styles/VersionHistory.css";
 import ExportAsPdf from "../Service/ExportAsPdf";
 
-function ClientFeedback({ projectId }) {
+function ClientFeedback({ projectId,role }) {
   // console.log(`in versionhistory ${projectId}`)
   const [MoMData, setMoMData] = useState([]);
   const [newMoM, setNewMoM] = useState({
@@ -33,7 +33,7 @@ function ClientFeedback({ projectId }) {
 //   console.log(AuditHistory);
 
 
-  const handleAddNewAudit = () => {
+  const handleAddNewMoM = () => {
     setNewMoM({ ...newMoM, isEditing: true });
   };
 
@@ -94,9 +94,9 @@ function ClientFeedback({ projectId }) {
   return (
     <div>
     <div className="top-btns">
-      <button className="add-version-btn" onClick={handleAddNewAudit}>
-        Add Audit
-      </button>
+      {(role==="Admin" || role==="Project Manager") && (<button className="add-version-btn" onClick={handleAddNewMoM}>
+        Add MoM
+      </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
       </div>
       <table className="version-history-table">
@@ -106,7 +106,8 @@ function ClientFeedback({ projectId }) {
             <th>duration</th>
             <th>momLink</th>
             <th>comments</th>
-            <th>Actions</th>
+            {(role==="Admin" || role==="Project Manager") && (<th>Actions</th>)}
+            
           </tr>
         </thead>
         <tbody>
@@ -116,9 +117,9 @@ function ClientFeedback({ projectId }) {
               <td>{mom.duration}</td>
               <td>{mom.momLink}</td>
               <td>{mom.comments}</td>
-              <td>
+              {(role==="Admin" || role==="Project Manager") && (<td>
                 <button className="delete-btn" onClick={() => deleteMoM(mom._id)}>Delete</button>
-              </td>
+              </td>)}
             </tr>
           ))}
           {newMoM.isEditing && (

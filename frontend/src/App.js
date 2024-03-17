@@ -6,8 +6,12 @@ import ProjectList from './Components/ProjectList';
 import { BrowserRouter as Router, Route, Routes,Switch } from 'react-router-dom';
 import CreateProjectForm from './Components/CreateProjectForm';
 import ProjectOverview from './Components/ProjectOverview';
+import CreateUser from './Service/CreateUserService';
 import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import EditProjects from './Components/EditProjects';
 
@@ -22,7 +26,7 @@ function App() {
   }, [isAuthenticated,isLoading, loginWithRedirect]);
 
   return (
-      
+      //  <AuthState>
         <div className='MainPage'>
           <Navbar/>
           <div className='lowerContent'>
@@ -33,10 +37,12 @@ function App() {
           <Route path='/CreateProject' element={<CreateProjectForm/>}/>
           <Route path="/project-details" element={<ProjectOverview />} />
           <Route path="/edit-projects/:projectId" element={<EditProjects />}/>
+          <Route path="/CreateUser" element={<CreateUser/>}/>
         </Routes>
-        
+        <ToastContainer/>
         </div>
         </div>
+        // {/* </AuthState> */}
 
     
   );

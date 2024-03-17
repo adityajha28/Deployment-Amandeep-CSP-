@@ -7,11 +7,15 @@
 .TopContainer{
   width: 100%;
   display: flex;
+  margin-top: 20px;
   flex-direction: column;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
 }
 
 .StatusCards{
-  width: 95%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   margin: 20px 0;

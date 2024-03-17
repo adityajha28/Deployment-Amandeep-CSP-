@@ -3,7 +3,7 @@ import axios from "axios";
 import "../Styles/VersionHistory.css";
 import ExportAsPdf from "../Service/ExportAsPdf";
 
-function Sprint({ projectId }) {
+function Sprint({ projectId,role }) {
   // console.log(`in versionhistory ${projectId}`)
   const [SprintHistory, setSprintHistory] = useState([]);
   const [newSprint, setNewSprint] = useState({
@@ -86,9 +86,10 @@ function Sprint({ projectId }) {
   return (
     <div>
       <div className="top-btns">
-      <button className="add-version-btn" onClick={handleAddNewSprint}>
+        {(role==="Admin" || role==="Project Manager") && (<button className="add-version-btn" onClick={handleAddNewSprint}>
         Add SprintDetails
-      </button>
+      </button>)}
+      
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
       </div>
 
@@ -100,7 +101,7 @@ function Sprint({ projectId }) {
             <th>End Date</th>
             <th>Status</th>
             <th>Comments</th>
-            <th>Actions</th>
+            {(role==="Admin" || role==="Project Manager") && (<th>Actions</th>)}
           </tr>
         </thead>
         <tbody>
@@ -111,12 +112,12 @@ function Sprint({ projectId }) {
               <td>{sprint.EndDate}</td>
               <td>{sprint.Status}</td>
               <td>{sprint.Comments}</td>
-              <td>
+              {(role==="Admin" || role==="Project Manager") &&(<td>
                 {sprint.isEditing ? (
                   <button className="save-btn">Save</button>
                 ) : (
                   <div className="edit-buttons">
-                    <button className="edit-btn">Edit</button>
+                    {/* <button className="edit-btn">Edit</button> */}
                     <button
                       className="delete-btn"
                       onClick={() => deleteSprint(sprint._id)}
@@ -125,7 +126,7 @@ function Sprint({ projectId }) {
                     </button>
                   </div>
                 )}
-              </td>
+              </td>)}
             </tr>
           ))}
           {newSprint.isEditing && (

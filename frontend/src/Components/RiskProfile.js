@@ -4,7 +4,7 @@ import "../Styles/VersionHistory.css";
 import EditRiskModal from "../Modals/EditRiskModal";
 import ExportAsPdf from "../Service/ExportAsPdf";
 
-function RiskProfile({ projectId }) {
+function RiskProfile({ projectId,role }) {
   // console.log(`in versionhistory ${projectId}`)
   const [RiskProfiles, setRiskProfile] = useState([]);
   const [newRiskProfile, setNewRiskProfile] = useState({
@@ -38,7 +38,7 @@ function RiskProfile({ projectId }) {
     fetchAuditHistory();
   }, [projectId]);
 
-  const handleAddNewAudit = () => {
+  const handleAddNewRisk = () => {
     setNewRiskProfile({ ...newRiskProfile, isEditing: true });
   };
 
@@ -120,9 +120,9 @@ function RiskProfile({ projectId }) {
   return (
     <div>
       <div className="top-btns">
-      <button className="add-version-btn" onClick={handleAddNewAudit}>
+      {(role==="Admin"  || role==="Project Manager")  &&( <button className="add-version-btn" onClick={handleAddNewRisk}>
         Add RiskProfile
-      </button>
+      </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
       </div>
 
@@ -136,7 +136,7 @@ function RiskProfile({ projectId }) {
             <th>Remedial Steps</th>
             <th>Status</th>
             <th>closureDate</th>
-            <th>Actions</th>
+            {(role==="Admin" || role==="Project Manager")&&(<th>Actions</th>)}
           </tr>
         </thead>
         <tbody>
@@ -149,10 +149,11 @@ function RiskProfile({ projectId }) {
               <td>{riskprofile.RemedialSteps}</td>
               <td>{riskprofile.Status}</td>
               <td>{riskprofile.closureDate}</td>
-              <td>
+              {(role==="Admin" || role==="Project Manager") && (<td>
                 <button className="edit-btn" onClick={() => handleEditVersion(riskprofile)}>Edit</button>
                 <button className="delete-btn" onClick={() => deleteRisk(riskprofile._id)}>Delete</button>
-              </td>
+              </td>)}
+              
             </tr>
           ))}
           {newRiskProfile.isEditing && (

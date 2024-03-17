@@ -3,9 +3,10 @@ import axios from "axios";
 import "../Styles/VersionHistory.css";
 import EditAuditModal from "../Modals/EditAuditModal";
 import ExportAsPdf from "../Service/ExportAsPdf";
+import {toast} from 'react-toastify';
 
 
-function AuditHistory({ projectId }) {
+function AuditHistory({ projectId ,role}) {
   // console.log(`in versionhistory ${projectId}`)
   const [AuditHistory, setAuditHistory] = useState([]);
   const [newAudit, setNewAudit] = useState({
@@ -64,9 +65,11 @@ function AuditHistory({ projectId }) {
       });
 
       await axios.post('http://localhost:5000/api/send-email', {
+        projectId:{projectId},
         subject: 'New Audit Added',
         text: 'A new audit has been added.',...newAudit
       });
+      toast.success("Email sent to Client for new Audit");
       // window.location.reload();
     } catch (error) {
       console.error("Error saving new version:", error);
@@ -143,6 +146,15 @@ function AuditHistory({ projectId }) {
       );
       setAuditHistory(updatedAudits);
       setShowEditModal(false);
+      await axios.post('http://localhost:5000/api/send-email', {
+        projectId:{projectId},
+        subject: 'Audit Updated',
+        text: 'A audit has been Updates.',...updatedAudit
+      });
+
+      toast.success("Email sent to Client for updated Audit");
+
+      
     } catch (error) {
       console.error("Error updating budget:", error);
     }
@@ -153,9 +165,10 @@ function AuditHistory({ projectId }) {
   return (
     <div>
     <div className="top-btns">
-      <button className="add-version-btn" onClick={handleAddNewAudit}>
+      {(role==="Admin" || role==="Auditor" || role==="Project Manager") && ( <button className="add-version-btn" onClick={handleAddNewAudit}>
         Add Audit
-      </button>
+      </button>)}
+     
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
       </div>
       <table className="version-history-table">

@@ -4,7 +4,7 @@ import "../Styles/VersionHistory.css";
 import EditResourceModal from '../Modals/EditResourceModal';
 import ExportAsPdf from "../Service/ExportAsPdf";
 
-function Resources({ projectId }) {
+function Resources({ projectId,role }) {
   // console.log(`in versionhistory ${projectId}`)
   const [ProjectResources, setResources] = useState([]);
   const [newProjectResource, setNewResource] = useState({
@@ -113,9 +113,9 @@ function Resources({ projectId }) {
   return (
     <div>
       <div className="top-btns">
-      <button className="add-version-btn" onClick={handleAddNewResource}>
+      {(role==="Admin"  || role==="Project Manager")  &&( <button className="add-version-btn" onClick={handleAddNewResource}>
         Add Resource
-      </button>
+      </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
       </div>
 
@@ -127,7 +127,7 @@ function Resources({ projectId }) {
             <th>Start Date</th>
             <th>End Date</th>
             <th>Comment</th>
-            <th>Actions</th>
+            {(role==="Admin"||role==="Project Manager") && (<th>Actions</th>)}
           </tr>
         </thead>
         <tbody>
@@ -138,10 +138,10 @@ function Resources({ projectId }) {
               <td>{projectresource.startDate}</td>
               <td>{projectresource.endDate}</td>
               <td>{projectresource.comment}</td>
-              <td>
+              {(role=="Admin" || role==="Project Manager")&&(<td>
                 <button className="edit-btn" onClick={() => handleEditResource(projectresource)}>Edit</button>
                 <button className="delete-btn" onClick={() => deleteResource(projectresource._id)}>Delete</button>
-              </td>
+              </td>)}
             </tr>
           ))}
           {newProjectResource.isEditing && (

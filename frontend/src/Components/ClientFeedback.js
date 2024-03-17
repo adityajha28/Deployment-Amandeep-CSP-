@@ -4,7 +4,7 @@ import "../Styles/VersionHistory.css";
 import EditAuditModal from "../Modals/EditAuditModal";
 import ExportAsPdf from "../Service/ExportAsPdf";
 
-function ClientFeedback({ projectId }) {
+function ClientFeedback({ projectId,role}) {
   // console.log(`in versionhistory ${projectId}`)
   const [ClientFeedback, setClientFeedback] = useState([]);
   const [newFeedback, setNewFeedback] = useState({
@@ -126,9 +126,9 @@ function ClientFeedback({ projectId }) {
   return (
     <div>
     <div className="top-btns">
-      <button className="add-version-btn" onClick={handleAddNewFeedback}>
-        Add Client Feedback
-      </button>
+    {(role==="Admin"  || role==="Project Manager") && ( <button className="add-version-btn" onClick={handleAddNewFeedback}>
+        Add ClientFeedback
+      </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
       </div>
       <table className="version-history-table">
@@ -139,7 +139,7 @@ function ClientFeedback({ projectId }) {
             <th>detailedFeedback</th>
             <th>actionTaken</th>
             <th>closureDate</th>
-            <th>Actions</th>
+            {(role==="Admin" || role==="Project Manager") &&(<th>Actions</th>)}
           </tr>
         </thead>
         <tbody>
@@ -150,10 +150,11 @@ function ClientFeedback({ projectId }) {
               <td>{feedback.detailedFeedback}</td>
               <td>{feedback.actionTaken}</td>
               <td>{feedback.closureDate}</td>
-              <td>
-                <button className="edit-btn" onClick={() => handleEditFeedback(feedback)}>Edit</button>
+              {(role==="Admin" || role=="Projetc Manager") && ( <td>
+                {/* <button className="edit-btn" onClick={() => handleEditFeedback(feedback)}>Edit</button> */}
                 <button className="delete-btn" onClick={() => deleteAudit(feedback._id)}>Delete</button>
-              </td>
+              </td>)}
+             
             </tr>
           ))}
           {newFeedback.isEditing && (

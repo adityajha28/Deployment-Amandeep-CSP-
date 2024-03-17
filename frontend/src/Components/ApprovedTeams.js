@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../Styles/ApprovedTeams.css";
 
-function ApprovedTeams({ projectId }) {
+function ApprovedTeams({ projectId,role }) {
   const [approvedTeams, setApprovedTeams] = useState([]);
   const [formData, setFormData] = useState({
     projectId: `${projectId}`,
@@ -94,7 +94,7 @@ function ApprovedTeams({ projectId }) {
 
   return (
     <div className="approved-teams-container">
-      <div className="form-container">
+      {(role==="Admin" || role==="Project Manager") && (<div className="form-container">
         <h2>Add Approved Team Data</h2>
         <form onSubmit={handleSubmit}>
           <label>
@@ -146,7 +146,8 @@ function ApprovedTeams({ projectId }) {
           <button type="submit">Add Data</button>
           </div>
         </form>
-      </div>
+      </div>)}
+      
       <div className="phase-tables">{renderPhaseTables()}</div>
     </div>
   );
