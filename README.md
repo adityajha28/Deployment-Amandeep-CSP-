@@ -57,6 +57,6 @@ npm start
 
 Now you can access the application.
 
-#Login Credentials for Admin
-*Email: admin@gmail.com
-*Password: Am@ndeep2624
+# Login Credentials for Admin
+* Email: admin@gmail.com
+* Password: Am@ndeep2624
