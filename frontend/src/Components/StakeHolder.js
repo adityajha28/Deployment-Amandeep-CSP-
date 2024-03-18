@@ -108,7 +108,7 @@ function StakeHolder({ projectId,role }) {
   return (
     <div>
       <div className="top-btns">
-      {(role==="Admin" || role==="Auditor" || role==="Project Manager") && ( <button className="add-version-btn" onClick={handleAddNewStakeHolder}>
+      {(role==="Admin" || role==="Auditor" || role==="Project Manger") && ( <button className="add-version-btn" onClick={handleAddNewStakeHolder}>
         Add StakeHolder
       </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
@@ -120,7 +120,8 @@ function StakeHolder({ projectId,role }) {
             <th>Title</th>
             <th>Name</th>
             <th>Contact</th>
-            <th>Actions</th>
+            {(role==="Admin" || role==="Auditor" || role==="Project Manger")&&(<th>Actions</th>)}
+            
           </tr>
         </thead>
         <tbody>
@@ -129,10 +130,10 @@ function StakeHolder({ projectId,role }) {
               <td>{stakeHolder.Title}</td>
               <td>{stakeHolder.Name}</td>
               <td>{stakeHolder.Contact}</td>
-              <td>
+              {(role==="Admin" || role==="Auditor" || role==="Project Manger")&&(<td>
                 <button className="edit-btn" onClick={() => handleEditStakeHolder(stakeHolder)}>Edit</button>
                 <button className="delete-btn" onClick={() => deleteStakeHolder(stakeHolder._id)}>Delete</button>
-              </td>
+              </td>)}
             </tr>
           ))}
           {newStakeHolder.isEditing && (

@@ -104,7 +104,7 @@ function ProjectUpdates({ projectId,role}) {
   return (
     <div>
       <div className="top-btns">
-      {(role==="Admin"  || role==="Project Manager")  &&( <button className="add-version-btn" onClick={handleAddNewUpdate}>
+      {(role==="Admin"  || role==="Project Manger")  &&( <button className="add-version-btn" onClick={handleAddNewUpdate}>
         Add ProjectUpdate
       </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
@@ -115,7 +115,7 @@ function ProjectUpdates({ projectId,role}) {
           <tr>
             <th>Date</th>
             <th>General Updates</th>
-            {(role==="Admin" || role==="Project Manager") && (<th>Actions</th>)}
+            {(role==="Admin" || role==="Project Manger") && (<th>Actions</th>)}
           </tr>
         </thead>
         <tbody>
@@ -123,7 +123,7 @@ function ProjectUpdates({ projectId,role}) {
             <tr key={index}>
               <td>{updates.date}</td>
               <td>{updates.generalUpdates}</td>
-              {(role==="Admin" || role==="Project Manager") && (<td>
+              {(role==="Admin" || role==="Project Manger") && (<td>
                 <button className="edit-btn" onClick={() => handleEditBudget(updates)}>Edit</button>
                 <button className="delete-btn" onClick={() => deleteProjectUpdate(updates._id)}>Delete</button>
               </td>)}

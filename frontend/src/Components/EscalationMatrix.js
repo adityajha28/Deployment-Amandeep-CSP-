@@ -67,7 +67,7 @@ function OperationalEscalationTable({ escalationData }) {
             <tr>
               <th>Escalation Level</th>
               <th>Role</th>
-              <th>Actions</th>
+              {(role==="Admin" || role==="Project Manger")&&(<th>Actions</th>)}
             </tr>
           </thead>
           <tbody>
@@ -75,8 +75,7 @@ function OperationalEscalationTable({ escalationData }) {
               <tr key={entry._id}>
                 <td>{entry.escaltionLevel}</td>
                 <td>{entry.role}</td>
-                <td><button className='delete-btn' onClick={() => deleteEscalation(entry._id)}>Delete</button></td>
-              </tr>
+                {(role==="Admin" || role==="Project Manger")&&(<th> <td><button className='delete-btn' onClick={() => deleteEscalation(entry._id)}>Delete</button></td></th>)}              </tr>
             ))}
           </tbody>
         </table>
@@ -95,7 +94,7 @@ function OperationalEscalationTable({ escalationData }) {
             <tr>
               <th>Escalation Level</th>
               <th>Role</th>
-              <th>Actions</th>
+              {(role==="Admin" || role==="Project Manger")&&(<th>Actions</th>)}
             </tr>
           </thead>
           <tbody>
@@ -103,7 +102,7 @@ function OperationalEscalationTable({ escalationData }) {
               <tr key={entry._id}>
                 <td>{entry.escaltionLevel}</td>
                 <td>{entry.role}</td>
-                <td><button className='delete-btn' onClick={() => deleteEscalation(entry._id)}>Delete</button></td>
+                {(role==="Admin" || role==="Project Manger")&&(<th> <td><button className='delete-btn' onClick={() => deleteEscalation(entry._id)}>Delete</button></td></th>)}
               </tr>
             ))}
           </tbody>
@@ -123,7 +122,7 @@ function OperationalEscalationTable({ escalationData }) {
             <tr>
               <th>Escalation Level</th>
               <th>Role</th>
-              <th>Actions</th>
+              {(role==="Admin" || role==="Project Manger")&&(<th>Actions</th>)}
             </tr>
           </thead>
           <tbody>
@@ -131,7 +130,8 @@ function OperationalEscalationTable({ escalationData }) {
               <tr key={entry._id}>
                 <td>{entry.escaltionLevel}</td>
                 <td>{entry.role}</td>
-                <td><button className='delete-btn' onClick={() => deleteEscalation(entry._id)}>Delete</button></td>
+                {(role==="Admin" || role==="Project Manger")&&(<th> <td><button className='delete-btn' onClick={() => deleteEscalation(entry._id)}>Delete</button></td></th>)}
+               
               </tr>
             ))}
           </tbody>
@@ -143,7 +143,7 @@ function OperationalEscalationTable({ escalationData }) {
   return (
     
     <div className="escalation-matrix">
-      {(role==="Admin" || role==="Project Manager") && ( <>
+      {(role==="Admin" || role==="Project Manger") && ( <>
     <h2>Add New Escalation Matrix Entry</h2>
     <form onSubmit={handleSubmit} className='FormContainer'>
       <label>

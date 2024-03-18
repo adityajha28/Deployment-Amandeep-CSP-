@@ -126,7 +126,7 @@ function ClientFeedback({ projectId,role}) {
   return (
     <div>
     <div className="top-btns">
-    {(role==="Admin"  || role==="Project Manager") && ( <button className="add-version-btn" onClick={handleAddNewFeedback}>
+    {(role==="Admin"  || role==="Project Manger") && ( <button className="add-version-btn" onClick={handleAddNewFeedback}>
         Add ClientFeedback
       </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
@@ -139,7 +139,7 @@ function ClientFeedback({ projectId,role}) {
             <th>detailedFeedback</th>
             <th>actionTaken</th>
             <th>closureDate</th>
-            {(role==="Admin" || role==="Project Manager") &&(<th>Actions</th>)}
+            {(role==="Admin" || role==="Project Manger") &&(<th>Actions</th>)}
           </tr>
         </thead>
         <tbody>
@@ -150,7 +150,7 @@ function ClientFeedback({ projectId,role}) {
               <td>{feedback.detailedFeedback}</td>
               <td>{feedback.actionTaken}</td>
               <td>{feedback.closureDate}</td>
-              {(role==="Admin" || role=="Projetc Manager") && ( <td>
+              {(role==="Admin" || role=="Project Manger") && ( <td>
                 {/* <button className="edit-btn" onClick={() => handleEditFeedback(feedback)}>Edit</button> */}
                 <button className="delete-btn" onClick={() => deleteAudit(feedback._id)}>Delete</button>
               </td>)}

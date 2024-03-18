@@ -113,7 +113,7 @@ function Resources({ projectId,role }) {
   return (
     <div>
       <div className="top-btns">
-      {(role==="Admin"  || role==="Project Manager")  &&( <button className="add-version-btn" onClick={handleAddNewResource}>
+      {(role==="Admin"  || role==="Project Manger")  &&( <button className="add-version-btn" onClick={handleAddNewResource}>
         Add Resource
       </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
@@ -127,7 +127,7 @@ function Resources({ projectId,role }) {
             <th>Start Date</th>
             <th>End Date</th>
             <th>Comment</th>
-            {(role==="Admin"||role==="Project Manager") && (<th>Actions</th>)}
+            {(role==="Admin"||role==="Project Manger") && (<th>Actions</th>)}
           </tr>
         </thead>
         <tbody>
@@ -138,7 +138,7 @@ function Resources({ projectId,role }) {
               <td>{projectresource.startDate}</td>
               <td>{projectresource.endDate}</td>
               <td>{projectresource.comment}</td>
-              {(role=="Admin" || role==="Project Manager")&&(<td>
+              {(role=="Admin" || role==="Project Manger")&&(<td>
                 <button className="edit-btn" onClick={() => handleEditResource(projectresource)}>Edit</button>
                 <button className="delete-btn" onClick={() => deleteResource(projectresource._id)}>Delete</button>
               </td>)}

@@ -86,7 +86,7 @@ function Sprint({ projectId,role }) {
   return (
     <div>
       <div className="top-btns">
-        {(role==="Admin" || role==="Project Manager") && (<button className="add-version-btn" onClick={handleAddNewSprint}>
+        {(role==="Admin" || role==="Project Manger") && (<button className="add-version-btn" onClick={handleAddNewSprint}>
         Add SprintDetails
       </button>)}
       
@@ -101,7 +101,7 @@ function Sprint({ projectId,role }) {
             <th>End Date</th>
             <th>Status</th>
             <th>Comments</th>
-            {(role==="Admin" || role==="Project Manager") && (<th>Actions</th>)}
+            {(role==="Admin" || role==="Project Manger") && (<th>Actions</th>)}
           </tr>
         </thead>
         <tbody>
@@ -112,7 +112,7 @@ function Sprint({ projectId,role }) {
               <td>{sprint.EndDate}</td>
               <td>{sprint.Status}</td>
               <td>{sprint.Comments}</td>
-              {(role==="Admin" || role==="Project Manager") &&(<td>
+              {(role==="Admin" || role==="Project Manger") &&(<td>
                 {sprint.isEditing ? (
                   <button className="save-btn">Save</button>
                 ) : (

@@ -77,30 +77,6 @@ function AuditHistory({ projectId ,role}) {
   };
 
 
-  // const handleSaveEditedAudit = async () => {
-  //   try {
-  //     const response = await axios.put(
-  //       `http://localhost:5000/api/audit-history/${editAudit._id}`,
-  //       editAudit
-  //     );
-  //     const updatedAuditHistory = AuditHistory.map((audit) =>
-  //       audit._id === editAudit._id ? editAudit : audit
-  //     );
-  //     setAuditHistory(updatedAuditHistory);
-  //     setEditAudit({
-  //       _id: null,
-  //       DateofAudit: "",
-  //       reviewedBy: "",
-  //       status: "",
-  //       reviewedSection: "",
-  //       comment: "",
-  //       actionItem: "",
-  //       isEditing: false,
-  //     });
-  //   } catch (error) {
-  //     console.error("Error saving edited version:", error);
-  //   }
-  // };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -165,7 +141,7 @@ function AuditHistory({ projectId ,role}) {
   return (
     <div>
     <div className="top-btns">
-      {(role==="Admin" || role==="Auditor" || role==="Project Manager") && ( <button className="add-version-btn" onClick={handleAddNewAudit}>
+      {(role==="Admin" || role==="Auditor") && ( <button className="add-version-btn" onClick={handleAddNewAudit}>
         Add Audit
       </button>)}
      
@@ -180,7 +156,8 @@ function AuditHistory({ projectId ,role}) {
             <th>reviewedSection</th>
             <th>Comments</th>
             <th>Action Items</th>
-            <th>Actions</th>
+            {(role==="Admin" || role==="Auditor")&&(<th>Actions</th>)}
+            
           </tr>
         </thead>
         <tbody>
@@ -192,10 +169,10 @@ function AuditHistory({ projectId ,role}) {
               <td>{audit.reviewedSection}</td>
               <td>{audit.comment}</td>
               <td>{audit.actionItem}</td>
-              <td>
+              {(role==="Admin" || role==="Auditor")&&( <td>
                 <button className="edit-btn" onClick={() => handleEditAudit(audit)}>Edit</button>
                 <button className="delete-btn" onClick={() => deleteAudit(audit._id)}>Delete</button>
-              </td>
+              </td>)}
             </tr>
           ))}
           {newAudit.isEditing && (

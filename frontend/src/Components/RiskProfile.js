@@ -120,7 +120,7 @@ function RiskProfile({ projectId,role }) {
   return (
     <div>
       <div className="top-btns">
-      {(role==="Admin"  || role==="Project Manager")  &&( <button className="add-version-btn" onClick={handleAddNewRisk}>
+      {(role==="Admin"  || role==="Project Manger")  &&( <button className="add-version-btn" onClick={handleAddNewRisk}>
         Add RiskProfile
       </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
@@ -136,7 +136,7 @@ function RiskProfile({ projectId,role }) {
             <th>Remedial Steps</th>
             <th>Status</th>
             <th>closureDate</th>
-            {(role==="Admin" || role==="Project Manager")&&(<th>Actions</th>)}
+            {(role==="Admin" || role==="Project Manger")&&(<th>Actions</th>)}
           </tr>
         </thead>
         <tbody>
@@ -149,7 +149,7 @@ function RiskProfile({ projectId,role }) {
               <td>{riskprofile.RemedialSteps}</td>
               <td>{riskprofile.Status}</td>
               <td>{riskprofile.closureDate}</td>
-              {(role==="Admin" || role==="Project Manager") && (<td>
+              {(role==="Admin" || role==="Project Manger") && (<td>
                 <button className="edit-btn" onClick={() => handleEditVersion(riskprofile)}>Edit</button>
                 <button className="delete-btn" onClick={() => deleteRisk(riskprofile._id)}>Delete</button>
               </td>)}

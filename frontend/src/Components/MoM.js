@@ -94,7 +94,7 @@ function ClientFeedback({ projectId,role }) {
   return (
     <div>
     <div className="top-btns">
-      {(role==="Admin" || role==="Project Manager") && (<button className="add-version-btn" onClick={handleAddNewMoM}>
+      {(role==="Admin" || role==="Project Manger") && (<button className="add-version-btn" onClick={handleAddNewMoM}>
         Add MoM
       </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
@@ -106,7 +106,7 @@ function ClientFeedback({ projectId,role }) {
             <th>duration</th>
             <th>momLink</th>
             <th>comments</th>
-            {(role==="Admin" || role==="Project Manager") && (<th>Actions</th>)}
+            {(role==="Admin" || role==="Project Manger") && (<th>Actions</th>)}
             
           </tr>
         </thead>
@@ -117,7 +117,7 @@ function ClientFeedback({ projectId,role }) {
               <td>{mom.duration}</td>
               <td>{mom.momLink}</td>
               <td>{mom.comments}</td>
-              {(role==="Admin" || role==="Project Manager") && (<td>
+              {(role==="Admin" || role==="Project Manger") && (<td>
                 <button className="delete-btn" onClick={() => deleteMoM(mom._id)}>Delete</button>
               </td>)}
             </tr>

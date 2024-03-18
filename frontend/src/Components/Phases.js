@@ -119,7 +119,7 @@ function Phases({ projectId,role }) {
   return (
     <div>
       <div className="top-btns">
-      {(role==="Admin"  || role==="Project Manager") && ( <button className="add-version-btn" onClick={handleAddNewPhase}>
+      {(role==="Admin"  || role==="Project Manger") && ( <button className="add-version-btn" onClick={handleAddNewPhase}>
         Add Audit
       </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
@@ -135,7 +135,8 @@ function Phases({ projectId,role }) {
             <th>Status</th>
             <th>RevisedCompletion Date</th>
             <th>Comments</th>
-            <th>Actions</th>
+            {(role==="Admin" || role=="Project Manger")&&( <th>Actions</th>)}
+           
           </tr>
         </thead>
         <tbody>
@@ -148,10 +149,11 @@ function Phases({ projectId,role }) {
               <td>{projectphase.Status}</td>
               <td>{projectphase.RevisedDate}</td>
               <td>{projectphase.Comments}</td>
-              <td>
+              {(role=="Admin"||role==="Project Manger")&&(<td>
                 <button className="edit-btn" onClick={() => handleEditPhase(projectphase)}>Edit</button>
                 <button className="delete-btn" onClick={() => deletePhase(projectphase._id)}>Delete</button>
-              </td>
+              </td>)}
+              
             </tr>
           ))}
           {newProjectPhase.isEditing && (

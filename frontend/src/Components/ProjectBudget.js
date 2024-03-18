@@ -107,7 +107,7 @@ function ProjectBudget({ projectId,role }) {
   return (
     <div>
       <div className="top-btns">
-      {(role==="Admin"  || role==="Project Manager")  &&( <button className="add-version-btn" onClick={handleAddNewBudget}>
+      {(role==="Admin"  || role==="Project Manger")  &&( <button className="add-version-btn" onClick={handleAddNewBudget}>
         Add Audit
       </button>)}
       <button className="download-pdf-btn" onClick={handleDownloadAsPdf}>Download As PDF</button>
@@ -119,7 +119,7 @@ function ProjectBudget({ projectId,role }) {
             <th>Project Type</th>
             <th>Duration in months</th>
             <th>Budgeted Hours</th>
-            {(role==="Admin" || role==="Project Manager") &&( <th>Actions</th>)}
+            {(role==="Admin" || role==="Project Manger") &&( <th>Actions</th>)}
            
           </tr>
         </thead>
@@ -129,7 +129,7 @@ function ProjectBudget({ projectId,role }) {
               <td>{budget.projectType}</td>
               <td>{budget.Duration}</td>
               <td>{budget.budgetHours}</td>
-              {(role==="Admin" || role==="Project Manager") &&(<td>
+              {(role==="Admin" || role==="Project Manger") &&(<td>
                 <button className="edit-btn" onClick={() => handleEditBudget(budget)}>Edit</button>
                 <button className="delete-btn" onClick={() => deleteBudget(budget._id)}>Delete</button>
               </td>)}

@@ -125,7 +125,7 @@ function VersionHistory({ projectId,role}) {
   return (
     <div>
       <div className="top-btns">
-        {(role === "Admin" || role === "Project Manager") && (
+        {(role === "Admin" || role === "Project Manger") && (
           <button className="add-version-btn" onClick={handleAddNewVersion}>
             Add Version
           </button>
@@ -145,7 +145,7 @@ function VersionHistory({ projectId,role}) {
             <th>Revision Date</th>
             <th>Approval Date</th>
             <th>Approved By</th>
-            {(role==="Admin" || role==="Project Manager")&&(<th>Actions</th>)}
+            {(role==="Admin" || role==="Project Manger")&&(<th>Actions</th>)}
           </tr>
         </thead>
         <tbody>
@@ -159,7 +159,7 @@ function VersionHistory({ projectId,role}) {
               <td>{Version.revisionDate}</td>
               <td>{Version.approvalDate}</td>
               <td>{Version.approvedBy}</td>
-              {(role==="Admin" || role==="Project Manager")&& (<td>
+              {(role==="Admin" || role==="Project Manger")&& (<td>
                 <button
                   className="edit-btn"
                   onClick={() => handleEditVersion(Version)}

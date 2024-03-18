@@ -54,6 +54,16 @@ function ApprovedTeams({ projectId,role }) {
     }
   };
 
+  const DeleteApprovedTeam = async (teamId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/approved-team/${teamId}`);
+      // Remove the deleted project from the project list
+      setApprovedTeams(approvedTeams.filter((Team) => Team._id !== teamId));
+    } catch (error) {
+      console.error("Error deleting audit:", error);
+    }
+  };
+
   // Function to render a table for each phase
   const renderPhaseTables = () => {
     if (approvedTeams.length === 0) {
@@ -73,6 +83,7 @@ function ApprovedTeams({ projectId,role }) {
                 <th>Role</th>
                 <th>Availability %</th>
                 <th>Duration</th>
+                {(role==="Admin" || role==="Project Manger")&&( <th>Actions</th>)}
               </tr>
             </thead>
             <tbody>
@@ -82,6 +93,8 @@ function ApprovedTeams({ projectId,role }) {
                   <td>{team.role}</td>
                   <td>{team.availabilityPercentage}</td>
                   <td>{team.duration}</td>
+                  {(role==="Admin" || role==="Project Manger")&&(<td><button className="delete-btn" onClick={()=>DeleteApprovedTeam(team._id)}>Delete</button></td>)}
+                  
                 </tr>
               ))}
             </tbody>
