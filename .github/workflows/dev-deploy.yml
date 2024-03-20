@@ -1,0 +1,111 @@
+name: Deploy to Amazon ECS
+
+on:
+  push:
+    branches:
+      - dev
+
+env:
+  AWS_REGION: ap-south-1                                       # set this to your preferred AWS region, e.g. ap-south-1
+  BACKEND_ECR_REPOSITORY: csp-backend                          # set this to your Amazon ECR repository name fo backend
+  BACKEND_ECS_SERVICE: test-backend-service                    # set this to your Amazon ECS service name for backend
+  BACKEND_ECS_CLUSTER: test2-ecs-cluster                       # set this to your Amazon ECS cluster name for backend
+  BACKEND_ECS_TASK_DEFINITION: test2-tf-backend-revision1.json # set this to the path to your Amazon ECS task definition for backend
+  FRONTEND_ECR_REPOSITORY: dev-csp                             # set this to your Amazon ECR repository name for frontend
+  FRONTEND_ECS_SERVICE: test2-ecs-service                      # set this to your Amazon ECS service name for frontend
+  FRONTEND_ECS_CLUSTER: test2-ecs-cluster                      # set this to your Amazon ECS cluster name for frontend
+  FRONTEND_ECS_TASK_DEFINITION: test2-tf-revision10.json       # set this to the path to your Amazon ECS task definition for frontend
+  CONTAINER_BACKEND: docker2                                   # Container name for backend in the task definition
+  CONTAINER_FRONTEND: dockerargs                               # Container name for frontend in the task definition
+
+jobs:
+  deploy_backend:
+    name: Deploy Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR Backend
+        id: login-ecr-backend
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push backend image to Amazon ECR
+        id: build-backend-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-backend.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$BACKEND_ECR_REPOSITORY:$IMAGE_TAG ./Backend
+          docker push $ECR_REGISTRY/$BACKEND_ECR_REPOSITORY:$IMAGE_TAG
+          echo "backend_image=$ECR_REGISTRY/$BACKEND_ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+      - name: Fill in the new backend image ID in the Amazon ECS task definition
+        id: task-def-backend
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.BACKEND_ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_BACKEND }}
+          image: ${{ env.backend_image }}
+
+      - name: Deploy Amazon ECS task definition for backend
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def-backend.outputs.task-definition }}
+          service: ${{ env.BACKEND_ECS_SERVICE }}
+          cluster: ${{ env.BACKEND_ECS_CLUSTER }}
+          wait-for-service-stability: true
+
+
+  deploy_frontend:
+    name: Deploy Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR Frontend
+        id: login-ecr-frontend
+        uses: aws-actions/amazon-ecr-login@v2
+      
+      - name: Build, tag, and push frontend image to Amazon ECR
+        id: build-frontend-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-frontend.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY/frontend:$IMAGE_TAG ./Frontend
+          docker push $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY/frontend:$IMAGE_TAG
+          echo "frontend_image=$ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY/frontend:$IMAGE_TAG" >> $GITHUB_ENV
+
+      - name: Fill in the new frontend image ID in the Amazon ECS task definition
+        id: task-def-frontend
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.FRONTEND_ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_FRONTEND }}
+          image: ${{ env.frontend_image }}
+
+      - name: Deploy Amazon ECS task definition for frontend
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def-frontend.outputs.task-definition }}
+          service: ${{ env.FRONTEND_ECS_SERVICE }}
+          cluster: ${{ env.FRONTEND_ECS_CLUSTER }}
+          wait-for-service-stability: true
