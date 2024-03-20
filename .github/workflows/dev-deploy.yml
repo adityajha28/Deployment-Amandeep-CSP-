@@ -90,9 +90,9 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr-frontend.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY/frontend:$IMAGE_TAG ./frontend
-          docker push $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY/frontend:$IMAGE_TAG
-          echo "frontend_image=$ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY/frontend:$IMAGE_TAG" >> $GITHUB_ENV
+          docker build -t $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:$IMAGE_TAG ./frontend
+          docker push $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:$IMAGE_TAG
+          echo "frontend_image=$ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
 
       - name: Fill in the new frontend image ID in the Amazon ECS task definition
         id: task-def-frontend
