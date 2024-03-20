@@ -1,0 +1,50 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:ap-south-1:891377367684:task-definition/test2-tf:10",
+    "containerDefinitions": [
+        {
+            "name": "dockerargs",
+            "image": "891377367684.dkr.ecr.ap-south-1.amazonaws.com/nodejs-app01:ac07a858c1f4d39dfc398df238809b95fae2f2a2",
+            "cpu": 300,
+            "memory": 300,
+            "portMappings": [
+                {
+                    "containerPort": 3000,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "systemControls": []
+        }
+    ],
+    "family": "test2-tf",
+    "executionRoleArn": "arn:aws:iam::891377367684:role/ecsTaskExecutionRole",
+    "networkMode": "bridge",
+    "revision": 10,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EXTERNAL",
+        "EC2"
+    ],
+    "cpu": "300",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "registeredAt": "2024-03-16T07:23:41.092Z",
+    "registeredBy": "arn:aws:iam::891377367684:user/S3-User",
+    "tags": []
+}
