@@ -8,15 +8,15 @@ on:
 env:
   AWS_REGION: ap-south-1                                       # set this to your preferred AWS region, e.g. ap-south-1
   BACKEND_ECR_REPOSITORY: csp-backend                          # set this to your Amazon ECR repository name fo backend CSP
-  BACKEND_ECS_SERVICE: test-backend-service                    # set this to your Amazon ECS service name for backend
-  BACKEND_ECS_CLUSTER: test2-ecs-cluster                       # set this to your Amazon ECS cluster name for backend
-  BACKEND_ECS_TASK_DEFINITION: test2-tf-backend-revision1.json # set this to the path to your Amazon ECS task definition for backend
+  BACKEND_ECS_SERVICE: csp-service-backend                    # set this to your Amazon ECS service name for backend
+  BACKEND_ECS_CLUSTER: CSP-cluster-dev                      # set this to your Amazon ECS cluster name for backend
+  BACKEND_ECS_TASK_DEFINITION: csp-backend-tf-revision1.json # set this to the path to your Amazon ECS task definition for backend
   FRONTEND_ECR_REPOSITORY: dev-csp                             # set this to your Amazon ECR repository name for frontend
-  FRONTEND_ECS_SERVICE: ecs-frontend                           # set this to your Amazon ECS service name for frontend CSP
-  FRONTEND_ECS_CLUSTER: test2-ecs-cluster                        # set this to your Amazon ECS cluster name for frontend
-  FRONTEND_ECS_TASK_DEFINITION: test2-tf-frontend-revision1.json       # set this to the path to your Amazon ECS task definition for frontend
-  CONTAINER_BACKEND: docker2                                   # Container name for backend in the task definition
-  CONTAINER_FRONTEND: frontend_cont                              # Container name for frontend in the task definition
+  FRONTEND_ECS_SERVICE: csp-service-frontend                           # set this to your Amazon ECS service name for frontend CSP
+  FRONTEND_ECS_CLUSTER: CSP-cluster-dev                       # set this to your Amazon ECS cluster name for frontend
+  FRONTEND_ECS_TASK_DEFINITION: csp-frontend-tf-revision1.json       # set this to the path to your Amazon ECS task definition for frontend
+  CONTAINER_BACKEND: backend_container                                  # Container name for backend in the task definition
+  CONTAINER_FRONTEND: frontend_container                              # Container name for frontend in the task definition
 
 jobs:
   deploy_backend:

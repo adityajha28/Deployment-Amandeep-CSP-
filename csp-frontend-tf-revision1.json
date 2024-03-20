@@ -1,13 +1,13 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-south-1:891377367684:task-definition/test2-tf-frontend:1",
+    "taskDefinitionArn": "arn:aws:ecs:ap-south-1:891377367684:task-definition/csp-frontend-tf:1",
     "containerDefinitions": [
         {
-            "name": "frontend_cont",
-            "image": "891377367684.dkr.ecr.ap-south-1.amazonaws.com/dev-csp:612fa58d9e10290dcc4caf92c2d4768f2564c4eb",
+            "name": "frontend_container",
+            "image": "891377367684.dkr.ecr.ap-south-1.amazonaws.com/dev-csp:00e25fb26fd8aafbdbc6912109d730687f0234ba",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "frontend_cont-3000-tcp",
+                    "name": "frontend_container-3000-tcp",
                     "containerPort": 3000,
                     "hostPort": 3000,
                     "protocol": "tcp",
@@ -24,7 +24,7 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/test2-tf-frontend",
+                    "awslogs-group": "/ecs/csp-frontend-tf",
                     "awslogs-region": "ap-south-1",
                     "awslogs-stream-prefix": "ecs"
                 },
@@ -33,7 +33,7 @@
             "systemControls": []
         }
     ],
-    "family": "test2-tf-frontend",
+    "family": "csp-frontend-tf",
     "taskRoleArn": "arn:aws:iam::891377367684:role/ecsTaskExecutionRole",
     "executionRoleArn": "arn:aws:iam::891377367684:role/ecsTaskExecutionRole",
     "networkMode": "bridge",
@@ -74,12 +74,12 @@
         "EC2"
     ],
     "cpu": "1024",
-    "memory": "3072",
+    "memory": "1024",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2024-03-20T10:02:59.487Z",
+    "registeredAt": "2024-03-20T16:42:31.490Z",
     "registeredBy": "arn:aws:iam::891377367684:root",
     "tags": []
 }

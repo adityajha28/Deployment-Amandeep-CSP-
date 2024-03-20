@@ -1,15 +1,15 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-south-1:891377367684:task-definition/test2-tf-backend:1",
+    "taskDefinitionArn": "arn:aws:ecs:ap-south-1:891377367684:task-definition/csp-backend-tf:1",
     "containerDefinitions": [
         {
-            "name": "docker2",
-            "image": "891377367684.dkr.ecr.ap-south-1.amazonaws.com/dev-csp:8e44838d72c50c6fb0f52f815966291fb8eaeb7b",
+            "name": "backend_container",
+            "image": "891377367684.dkr.ecr.ap-south-1.amazonaws.com/csp-backend:00e25fb26fd8aafbdbc6912109d730687f0234ba",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "docker2-8081-tcp",
+                    "name": "backend_container-8081-tcp",
                     "containerPort": 8081,
-                    "hostPort": 0,
+                    "hostPort": 8081,
                     "protocol": "tcp",
                     "appProtocol": "http"
                 }
@@ -24,7 +24,7 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/test2-tf-backend",
+                    "awslogs-group": "/ecs/csp-backend-tf",
                     "awslogs-region": "ap-south-1",
                     "awslogs-stream-prefix": "ecs"
                 },
@@ -33,7 +33,7 @@
             "systemControls": []
         }
     ],
-    "family": "test2-tf-backend",
+    "family": "csp-backend-tf",
     "taskRoleArn": "arn:aws:iam::891377367684:role/ecsTaskExecutionRole",
     "executionRoleArn": "arn:aws:iam::891377367684:role/ecsTaskExecutionRole",
     "networkMode": "bridge",
@@ -73,13 +73,13 @@
     "requiresCompatibilities": [
         "EC2"
     ],
-    "cpu": "300",
-    "memory": "300",
+    "cpu": "1024",
+    "memory": "1024",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2024-03-19T09:26:36.593Z",
+    "registeredAt": "2024-03-20T16:39:59.833Z",
     "registeredBy": "arn:aws:iam::891377367684:root",
     "tags": []
 }
