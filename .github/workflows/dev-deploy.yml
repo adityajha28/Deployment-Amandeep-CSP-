@@ -12,11 +12,11 @@ env:
   BACKEND_ECS_CLUSTER: test2-ecs-cluster                       # set this to your Amazon ECS cluster name for backend
   BACKEND_ECS_TASK_DEFINITION: test2-tf-backend-revision1.json # set this to the path to your Amazon ECS task definition for backend
   FRONTEND_ECR_REPOSITORY: dev-csp                             # set this to your Amazon ECR repository name for frontend
-  FRONTEND_ECS_SERVICE: test2-ecs-service                      # set this to your Amazon ECS service name for frontend
+  FRONTEND_ECS_SERVICE: ecs-frontend                     # set this to your Amazon ECS service name for frontend
   FRONTEND_ECS_CLUSTER: test2-ecs-cluster                      # set this to your Amazon ECS cluster name for frontend
-  FRONTEND_ECS_TASK_DEFINITION: test2-tf-revision10.json       # set this to the path to your Amazon ECS task definition for frontend
+  FRONTEND_ECS_TASK_DEFINITION: test2-tf-frontend-revision1.json       # set this to the path to your Amazon ECS task definition for frontend
   CONTAINER_BACKEND: docker2                                   # Container name for backend in the task definition
-  CONTAINER_FRONTEND: dockerargs                               # Container name for frontend in the task definition
+  CONTAINER_FRONTEND: frontend_cont                              # Container name for frontend in the task definition
 
 jobs:
   deploy_backend:
