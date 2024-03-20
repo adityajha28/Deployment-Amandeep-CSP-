@@ -1,9 +1,9 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-south-1:891377367684:task-definition/csp-backend-tf:1",
+    "taskDefinitionArn": "arn:aws:ecs:ap-south-1:891377367684:task-definition/csp-backend-tf:3",
     "containerDefinitions": [
         {
             "name": "backend_container",
-            "image": "891377367684.dkr.ecr.ap-south-1.amazonaws.com/csp-backend:00e25fb26fd8aafbdbc6912109d730687f0234ba",
+            "image": "891377367684.dkr.ecr.ap-south-1.amazonaws.com/csp-backend:e93ae17a9d1bc26d3e463b61c281e1c4e0509673",
             "cpu": 0,
             "portMappings": [
                 {
@@ -37,7 +37,7 @@
     "taskRoleArn": "arn:aws:iam::891377367684:role/ecsTaskExecutionRole",
     "executionRoleArn": "arn:aws:iam::891377367684:role/ecsTaskExecutionRole",
     "networkMode": "bridge",
-    "revision": 1,
+    "revision": 3,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -79,7 +79,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2024-03-20T16:39:59.833Z",
+    "registeredAt": "2024-03-20T18:14:05.747Z",
     "registeredBy": "arn:aws:iam::891377367684:root",
     "tags": []
 }
