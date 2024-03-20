@@ -1,4 +1,4 @@
-FROM node AS Frontend
+FROM node AS frontend
 WORKDIR /usr/src/app/frontend
 COPY frontend/package*.json ./
 RUN npm install 
