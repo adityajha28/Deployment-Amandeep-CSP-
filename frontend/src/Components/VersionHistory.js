@@ -27,7 +27,7 @@ function VersionHistory({ projectId,role}) {
     const fetchVersionHistory = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/version-history/${projectId}`
+          `http://3.108.217.170:5000/api/version-history/${projectId}`
         );
         setVersionHistory(response.data);
       } catch (error) {
@@ -45,7 +45,7 @@ function VersionHistory({ projectId,role}) {
   const handleSaveNewVersion = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/version-history`,
+        `http://3.108.217.170:5000/api/version-history`,
         newVersion
       );
       setVersionHistory([...versionHistory, newVersion]);
@@ -76,7 +76,7 @@ function VersionHistory({ projectId,role}) {
   const deleteVersion = async (versionId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/version-history/${versionId}`
+        `http://3.108.217.170:5000/api/version-history/${versionId}`
       );
       // Remove the deleted project from the project list
       setVersionHistory(
@@ -109,7 +109,7 @@ function VersionHistory({ projectId,role}) {
   const handleUpdateVersion = async (updatedVersion) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/version-history/${updatedVersion._id}`,
+        `http://3.108.217.170:5000/api/version-history/${updatedVersion._id}`,
         updatedVersion
       );
       const updatedVersions = versionHistory.map((Version) =>

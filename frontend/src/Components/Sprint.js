@@ -20,7 +20,7 @@ function Sprint({ projectId,role }) {
     const fetchAuditHistory = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/sprints/${projectId}`
+          `http://3.108.217.170:5000/api/sprints/${projectId}`
         );
         setSprintHistory(response.data);
       } catch (error) {
@@ -38,7 +38,7 @@ function Sprint({ projectId,role }) {
   const handleSaveNewSprint = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/sprints`,
+        `http://3.108.217.170:5000/api/sprints`,
         newSprint
       );
       setSprintHistory([...SprintHistory, newSprint]);
@@ -64,7 +64,7 @@ function Sprint({ projectId,role }) {
   // deleting a version data from table
   const deleteSprint = async (auditId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/sprints/${auditId}`);
+      await axios.delete(`http://3.108.217.170:5000/api/sprints/${auditId}`);
       // Remove the deleted project from the project list
       setSprintHistory(SprintHistory.filter((Audit) => Audit._id !== auditId));
     } catch (error) {

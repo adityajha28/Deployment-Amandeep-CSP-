@@ -22,7 +22,7 @@ function StakeHolder({ projectId,role }) {
     const fetchBudgetHistory = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/stakeholders/${projectId}`
+          `http://3.108.217.170:5000/api/stakeholders/${projectId}`
         );
         setStakeHolder(response.data);
       } catch (error) {
@@ -40,7 +40,7 @@ function StakeHolder({ projectId,role }) {
   const handleSaveNewStakeHolder = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/stakeholders`,
+        `http://3.108.217.170:5000/api/stakeholders`,
         newStakeHolder
       );
       setStakeHolder([...StakeHolders, newStakeHolder]);
@@ -65,7 +65,7 @@ function StakeHolder({ projectId,role }) {
   // deleting a version data from table
   const deleteStakeHolder = async (auditId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/stakeholders/${auditId}`);
+      await axios.delete(`http://3.108.217.170:5000/api/stakeholders/${auditId}`);
       // Remove the deleted project from the project list
       setStakeHolder(StakeHolders.filter((budget) => budget._id !== auditId));
     } catch (error) {
@@ -90,7 +90,7 @@ function StakeHolder({ projectId,role }) {
   const handleUpdateStakeHolder = async (updatedStake) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/stakeholders/${updatedStake._id}`,
+        `http://3.108.217.170:5000/api/stakeholders/${updatedStake._id}`,
         updatedStake
       );
       const updatedStakeHolder = StakeHolders.map((stake) =>

@@ -21,7 +21,7 @@ function ProjectUpdates({ projectId,role}) {
     const fetchProjectUpdates = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/project-update/${projectId}`
+          `http://3.108.217.170:5000/api/project-update/${projectId}`
         );
         setProjectUpdates(response.data);
       } catch (error) {
@@ -39,7 +39,7 @@ function ProjectUpdates({ projectId,role}) {
   const handleSaveNewProjectUpdate = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/project-update`,
+        `http://3.108.217.170:5000/api/project-update`,
         newProjectUpdate
       );
       setProjectUpdates([...projectUpdates, newProjectUpdate]);
@@ -63,7 +63,7 @@ function ProjectUpdates({ projectId,role}) {
   // deleting a version data from table
   const deleteProjectUpdate = async (UpdateId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/project-update/${UpdateId}`);
+      await axios.delete(`http://3.108.217.170:5000/api/project-update/${UpdateId}`);
       // Remove the deleted project from the project list
       setProjectUpdates(projectUpdates.filter((update) => update._id !== UpdateId));
     } catch (error) {
@@ -87,7 +87,7 @@ function ProjectUpdates({ projectId,role}) {
   const handleUpdateProjectUpdates = async (updatedProjectUpdate) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/project-update/${updatedProjectUpdate._id}`,
+        `http://3.108.217.170:5000/api/project-update/${updatedProjectUpdate._id}`,
         updatedProjectUpdate
       );
       const updatedProjectUpdates = projectUpdates.map((update) =>

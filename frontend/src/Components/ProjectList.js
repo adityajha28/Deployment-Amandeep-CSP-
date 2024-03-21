@@ -14,7 +14,7 @@ function ProjectList() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5000/api/projects")
+      .get("http://3.108.217.170:5000/api/projects")
       .then((response) => {
         // console.log("Data",response.data);
         setProjects(response.data);
@@ -29,7 +29,7 @@ function ProjectList() {
   // Function to delete a project
   const deleteProject = async (projectId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/projects/${projectId}`);
+      await axios.delete(`http://3.108.217.170:5000/api/projects/${projectId}`);
       // Remove the deleted project from the project list
       setProjects(projects.filter((project) => project._id !== projectId));
     } catch (error) {

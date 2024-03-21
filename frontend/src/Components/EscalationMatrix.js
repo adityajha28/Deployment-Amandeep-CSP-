@@ -14,7 +14,7 @@ function EscalationMatrix({ projectId,role }) {
   useEffect(() => {
     const fetchEscalationData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/escalation-matrix/${projectId}`);
+        const response = await axios.get(`http://3.108.217.170:5000/api/escalation-matrix/${projectId}`);
         setEscalationData(response.data);
       } catch (error) {
         console.error('Error fetching escalation data:', error);
@@ -32,7 +32,7 @@ function EscalationMatrix({ projectId,role }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/escalation-matrix', newEscalation);
+      const response = await axios.post('http://3.108.217.170:5000/api/escalation-matrix', newEscalation);
       setEscalationData([...escalationData, response.data]);
       setNewEscalation({
         projectId: projectId,
@@ -47,7 +47,7 @@ function EscalationMatrix({ projectId,role }) {
 
   const deleteEscalation = async (escId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/escalation-matrix/${escId}`);
+      await axios.delete(`http://3.108.217.170:5000/api/escalation-matrix/${escId}`);
       // Remove the deleted project from the project list
       setEscalationData(escalationData.filter((esc) => esc._id !== escId));
     } catch (error) {

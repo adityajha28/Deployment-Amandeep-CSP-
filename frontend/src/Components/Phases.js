@@ -26,7 +26,7 @@ function Phases({ projectId,role }) {
     const fetchProjectPhases = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/phases/${projectId}`
+          `http://3.108.217.170:5000/api/phases/${projectId}`
         );
         setPhase(response.data);
       } catch (error) {
@@ -44,7 +44,7 @@ function Phases({ projectId,role }) {
   const handleSaveNewAudit = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/phases`,
+        `http://3.108.217.170:5000/api/phases`,
         newProjectPhase
       );
       setPhase([...ProjectPhases, newProjectPhase]);
@@ -73,7 +73,7 @@ function Phases({ projectId,role }) {
   // deleting a version data from table
   const deletePhase = async (phaseId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/phases/${phaseId}`);
+      await axios.delete(`http://3.108.217.170:5000/api/phases/${phaseId}`);
       // Remove the deleted project from the project list
       setPhase(ProjectPhases.filter((Audit) => Audit._id !== phaseId));
     } catch (error) {
@@ -103,7 +103,7 @@ function Phases({ projectId,role }) {
   const handleUpdatePhase = async (updatedPhase) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/phases/${updatedPhase._id}`,
+        `http://3.108.217.170:5000/api/phases/${updatedPhase._id}`,
         updatedPhase
       );
       const updatedPhases = ProjectPhases.map((Phase) =>

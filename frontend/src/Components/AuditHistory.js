@@ -28,7 +28,7 @@ function AuditHistory({ projectId ,role}) {
     const fetchAuditHistory = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/audit-history/${projectId}`
+          `http://3.108.217.170:5000/api/audit-history/${projectId}`
         );
         setAuditHistory(response.data);
       } catch (error) {
@@ -49,7 +49,7 @@ function AuditHistory({ projectId ,role}) {
   const handleSaveNewAudit = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/audit-history`,
+        `http://3.108.217.170:5000/api/audit-history`,
         newAudit
       );
       setAuditHistory([...AuditHistory, newAudit]);
@@ -64,7 +64,7 @@ function AuditHistory({ projectId ,role}) {
         isEditing: false,
       });
 
-      await axios.post('http://localhost:5000/api/send-email', {
+      await axios.post('http://3.108.217.170:5000/api/send-email', {
         projectId:{projectId},
         subject: 'New Audit Added',
         text: 'A new audit has been added.',...newAudit
@@ -86,7 +86,7 @@ function AuditHistory({ projectId ,role}) {
   // deleting a version data from table
   const deleteAudit = async (auditId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/audit-history/${auditId}`);
+      await axios.delete(`http://3.108.217.170:5000/api/audit-history/${auditId}`);
       // Remove the deleted project from the project list
       setAuditHistory(AuditHistory.filter((Audit) => Audit._id !== auditId));
     } catch (error) {
@@ -114,7 +114,7 @@ function AuditHistory({ projectId ,role}) {
   const handleUpdateAudit = async (updatedAudit) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/audit-history/${updatedAudit._id}`,
+        `http://3.108.217.170:5000/api/audit-history/${updatedAudit._id}`,
         updatedAudit
       );
       const updatedAudits = AuditHistory.map((audit) =>
@@ -122,7 +122,7 @@ function AuditHistory({ projectId ,role}) {
       );
       setAuditHistory(updatedAudits);
       setShowEditModal(false);
-      await axios.post('http://localhost:5000/api/send-email', {
+      await axios.post('http://3.108.217.170:5000/api/send-email', {
         projectId:{projectId},
         subject: 'Audit Updated',
         text: 'A audit has been Updates.',...updatedAudit

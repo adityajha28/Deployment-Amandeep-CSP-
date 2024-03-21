@@ -17,7 +17,7 @@ function ApprovedTeams({ projectId,role }) {
     const fetchApprovedTeams = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/approved-team/${projectId}`
+          `http://3.108.217.170:5000/api/approved-team/${projectId}`
         );
         setApprovedTeams(response.data);
       } catch (error) {
@@ -37,7 +37,7 @@ function ApprovedTeams({ projectId,role }) {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/approved-team",
+        "http://3.108.217.170:5000/api/approved-team",
         formData
       );
       console.log("Data added successfully:", response.data);
@@ -56,7 +56,7 @@ function ApprovedTeams({ projectId,role }) {
 
   const DeleteApprovedTeam = async (teamId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/approved-team/${teamId}`);
+      await axios.delete(`http://3.108.217.170:5000/api/approved-team/${teamId}`);
       // Remove the deleted project from the project list
       setApprovedTeams(approvedTeams.filter((Team) => Team._id !== teamId));
     } catch (error) {

@@ -41,7 +41,7 @@ function CreateProjectForm() {
     e.preventDefault();
     console.log(formData);
     try {
-      await axios.post('http://localhost:5000/api/projects', formData);
+      await axios.post('http://3.108.217.170:5000/api/projects', formData);
       navigate('/');
     } catch (error) {
       console.error('Error creating project:', error);
