@@ -10,7 +10,7 @@ env:
   BACKEND_ECR_REPOSITORY: csp-backend                          # set this to your Amazon ECR repository name fo backend CSP
   BACKEND_ECS_SERVICE: csp-backend-service                   # set this to your Amazon ECS service name for backend
   BACKEND_ECS_CLUSTER: csp-cluster                      # set this to your Amazon ECS cluster name for backend
-  BACKEND_ECS_TASK_DEFINITION: csp-backend-tf-revision3.json # set this to the path to your Amazon ECS task definition for backend
+  BACKEND_ECS_TASK_DEFINITION: csp-backend-tf-revision8.json # set this to the path to your Amazon ECS task definition for backend
   FRONTEND_ECR_REPOSITORY: dev-csp                             # set this to your Amazon ECR repository name for frontend
   FRONTEND_ECS_SERVICE: csp-frontend-service                           # set this to your Amazon ECS service name for frontend CSP
   FRONTEND_ECS_CLUSTER: csp-cluster                       # set this to your Amazon ECS cluster name for frontend
