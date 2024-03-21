@@ -8,15 +8,15 @@ on:
 env:
   AWS_REGION: ap-south-1                                       # set this to your preferred AWS region, e.g. ap-south-1
   BACKEND_ECR_REPOSITORY: csp-backend                          # set this to your Amazon ECR repository name fo backend CSP
-  BACKEND_ECS_SERVICE: csp-backend-service                   # set this to your Amazon ECS service name for backend
+  BACKEND_ECS_SERVICE: backend-csp-service                   # set this to your Amazon ECS service name for backend
   BACKEND_ECS_CLUSTER: csp-cluster                      # set this to your Amazon ECS cluster name for backend
-  BACKEND_ECS_TASK_DEFINITION: csp-backend-tf-revision8.json # set this to the path to your Amazon ECS task definition for backend
+  BACKEND_ECS_TASK_DEFINITION: backend-csp-tf-revision1.json # set this to the path to your Amazon ECS task definition for backend
   FRONTEND_ECR_REPOSITORY: dev-csp                             # set this to your Amazon ECR repository name for frontend
-  FRONTEND_ECS_SERVICE: csp-frontend-service                           # set this to your Amazon ECS service name for frontend CSP
+  FRONTEND_ECS_SERVICE: frontend-csp-service                           # set this to your Amazon ECS service name for frontend CSP
   FRONTEND_ECS_CLUSTER: csp-cluster                       # set this to your Amazon ECS cluster name for frontend
-  FRONTEND_ECS_TASK_DEFINITION: csp-frontend-tf-revision3.json       # set this to the path to your Amazon ECS task definition for frontend
-  CONTAINER_BACKEND: backend_container                                  # Container name for backend in the task definition
-  CONTAINER_FRONTEND: frontend_container                              # Container name for frontend in the task definition
+  FRONTEND_ECS_TASK_DEFINITION: frontend-csp-tf-revision1.json       # set this to the path to your Amazon ECS task definition for frontend
+  CONTAINER_BACKEND: container-backend                                  # Container name for backend in the task definition
+  CONTAINER_FRONTEND: container-frontend                              # Container name for frontend in the task definition
 
 jobs:
   deploy_backend:
